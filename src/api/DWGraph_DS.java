@@ -1,5 +1,5 @@
 package api;
-
+import java.util.*;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -148,7 +148,7 @@ public class DWGraph_DS implements directed_weighted_graph{
     //-------------------inner class end Edge_Data (edge_data)-------------------//
 
     //Field
-    HashMap<Integer,node_data> nodes = new HashMap<Integer,node_data>();
+   private HashMap<Integer,node_data> nodes = new HashMap<Integer,node_data>();
     HashMap<Integer,HashMap<Integer,edge_data>> Edges = new HashMap<Integer,HashMap<Integer,edge_data>>();
     int MC;
 
