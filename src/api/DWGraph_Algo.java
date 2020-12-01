@@ -40,6 +40,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      * @param key
      */
     private void BFS(int key) {
+
         Queue<node_data> q = new LinkedList<node_data>();
         node_data t = this.g.getNode(key);
         q.add(t);
@@ -84,13 +85,16 @@ public class DWGraph_Algo implements dw_graph_algorithms {
             return false;
         initgraph();//initialization of all the vertex, to avoid mistakes in the next operations.
         Iterator<node_data> e = this.g.getV().iterator();
-        node_data t = e.next();
-        BFS(t.getKey());
         while (e.hasNext()) {
-            t = e.next();
-            if (t.getTag() != 1) { //check if not visited,if there is one vertex like that return false
-                return false;
+            node_data t = e.next();
+            BFS(t.getKey());
+            while (e.hasNext()) {
+                t = e.next();
+                if (t.getTag() != 1) { //check if not visited,if there is one vertex like that return false
+                    return false;
+                }
             }
+            initgraph();
         }
         return true;
     }
@@ -109,7 +113,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         node_data n = this.g.getNode(key);
         n.setWeight(0);
         pq.add(n);
-
         while (!(pq.isEmpty())) {
             n = pq.poll();
             if(pq.peek()!=null&&pq.peek().getTag()<n.getTag()){//double check to avoid mistake in the order
@@ -134,7 +137,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
                     }
                 }
             }
-
         }
         return p;
     }
