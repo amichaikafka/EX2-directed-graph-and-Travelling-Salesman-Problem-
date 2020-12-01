@@ -26,20 +26,13 @@ public class DWGraph_DS implements directed_weighted_graph {
 
             Edge_Data edge_data = (Edge_Data) o;
 
-            if (Src != edge_data.Src) return false;
-            if (Dest != edge_data.Dest) return false;
             return Double.compare(edge_data.Weight, Weight) == 0;
         }
 
         @Override
         public int hashCode() {
-            int result;
-            long temp;
-            result = Src;
-            result = 31 * result + Dest;
-            temp = Double.doubleToLongBits(Weight);
-            result = 31 * result + (int) (temp ^ (temp >>> 32));
-            return result;
+            long temp = Double.doubleToLongBits(Weight);
+            return (int) (temp ^ (temp >>> 32));
         }
 
         @Override
@@ -94,6 +87,8 @@ public class DWGraph_DS implements directed_weighted_graph {
     private int MC = 0, edgesize = 0;
 
     public DWGraph_DS() {
+         this.MC = 0;
+         this.edgesize = 0;
     }
     public DWGraph_DS(directed_weighted_graph g) {
         node_data n1;
@@ -116,7 +111,25 @@ public class DWGraph_DS implements directed_weighted_graph {
         this.MC = g.getMC();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        DWGraph_DS that = (DWGraph_DS) o;
+
+        if (edgesize != that.edgesize) return false;
+        if (nodes != null ? !nodes.equals(that.nodes) : that.nodes != null) return false;
+        return Edges != null ? Edges.equals(that.Edges) : that.Edges == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = nodes != null ? nodes.hashCode() : 0;
+        result = 31 * result + (Edges != null ? Edges.hashCode() : 0);
+        result = 31 * result + edgesize;
+        return result;
+    }
 
     @Override
     public node_data getNode(int key) {
@@ -131,13 +144,15 @@ public class DWGraph_DS implements directed_weighted_graph {
     @Override
     public void addNode(node_data n) {
         nodes.put(n.getKey(), n);
+        HashMap<Integer,edge_data> naibers= new HashMap<Integer, edge_data>();
+        Edges.put(n.getKey(),naibers);
     }
 
     @Override
     public void connect(int src, int dest, double w) {
         if (src != dest) {
             if (this.getNode(src) != null && this.getNode(dest) != null) {
-                if (Edges.get(src).get(dest) == null) {
+              if (Edges.get(src).get(dest) == null) {
                     edge_data e = new Edge_Data(src, dest, w);
 
                     Edges.get(src).put(dest, e);
@@ -167,16 +182,21 @@ public class DWGraph_DS implements directed_weighted_graph {
     public node_data removeNode(int key) {
         node_data t = this.getNode(key);//the node we want to remove
         if (t != null) {
-            nodes.remove(key, t);
+
             Iterator<edge_data> i = this.getE(key).iterator();
             while (i.hasNext()) {
+
                 edge_data e = i.next();
                 this.removeEdge(key, e.getDest());
+                if(Edges.get(e.getDest()).get(key)!=null){
+                    this.removeEdge( e.getDest(),key);
+                }
                 edgesize--;
                 MC++;
             }
             Edges.remove(key, Edges.get(key));
         }
+        nodes.remove(key, t);
         return t;
     }
 
@@ -208,9 +228,14 @@ public class DWGraph_DS implements directed_weighted_graph {
     public String toString() {
         String s ="DWGraph_DS{";
         Iterator<node_data> i=this.getV().iterator();
-        while (i.hasNext()){
-            Iterator<edge_data> e=this.getE(i.next().getKey()).iterator();
-            s=s+e.next().toString();
+        while (i.hasNext()) {
+            node_data t = i.next();
+            s = s +t.getKey()+":{";
+                    Iterator < edge_data > e = this.getE(t.getKey()).iterator();
+            while (e.hasNext()) {
+                s = s + e.next().toString();
+            }
+            s=s+"}";
         }
         s=s+"}";
         return s;

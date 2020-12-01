@@ -2,10 +2,10 @@ package api;
 
 public class NodeData implements node_data{
     public static int id = -1;
-    int Key, Tag = 0;
-    geo_location Geo_Loc = null;
-    double Weight = Double.MAX_VALUE;
-    String Info = "";
+   private int Key, Tag = 0;
+   private geo_location Geo_Loc = null;
+   private double Weight = Double.MAX_VALUE;
+   private String Info = "";
 
     public NodeData() {
         id++;
@@ -23,7 +23,11 @@ public class NodeData implements node_data{
     public NodeData (node_data n){
         this.Key=n.getKey();
         this.Tag=0;
-        this.Geo_Loc=new Geo(n.getLocation());
+        if(n.getLocation()!=null) {
+            this.Geo_Loc = new Geo(n.getLocation());
+        }else{
+            this.Geo_Loc=null;
+        }
         this.Weight=n.getWeight();
         this.Info=n.getInfo();
 
@@ -36,11 +40,7 @@ public class NodeData implements node_data{
 
         NodeData nodeData = (NodeData) o;
 
-        if (Key != nodeData.Key) return false;
-        if (Tag != nodeData.Tag) return false;
-        if (Double.compare(nodeData.Weight, Weight) != 0) return false;
-        if (Geo_Loc != null ? !Geo_Loc.equals(nodeData.Geo_Loc) : nodeData.Geo_Loc != null) return false;
-        return Info.equals(nodeData.Info);
+        return Geo_Loc != null ? Geo_Loc.equals(nodeData.Geo_Loc) : nodeData.Geo_Loc == null;
     }
 
     @Override

@@ -23,11 +23,12 @@ public class DWGraph_DS_To_Json implements JsonDeserializer<directed_weighted_gr
             int tag=val_node.getAsJsonObject().get("Tag").getAsInt();
             String info=val_node.getAsJsonObject().get("Info").getAsString();
             double weight =val_node.getAsJsonObject().get("Weight").getAsDouble();
-            JsonObject Geo_Loc=val_node.getAsJsonObject().get("Geo_Loc").getAsJsonObject();
+         /*   JsonObject Geo_Loc=val_node.getAsJsonObject().get("Geo_Loc").getAsJsonObject();
             double x =Geo_Loc.getAsJsonObject().get("X").getAsDouble();
             double y =Geo_Loc.getAsJsonObject().get("Y").getAsDouble();
             double z =Geo_Loc.getAsJsonObject().get("Z").getAsDouble();
-            geo_location glocation =new Geo(x,y,z);
+            geo_location glocation =new Geo(x,y,z);*/
+            geo_location glocation=null;
             node_data n =new NodeData(key,tag,glocation,weight,info);
             graph.addNode(n);
 

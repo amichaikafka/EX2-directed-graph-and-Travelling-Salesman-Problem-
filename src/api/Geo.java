@@ -1,9 +1,12 @@
 package api;
 
 public class Geo implements geo_location {
-    double X, Y, Z;
+   private double X, Y, Z;
 
     //constructor
+    public Geo(){
+
+    }
     public Geo(double _x, double _y, double _z) {
         this.X = _x;
         this.Y = _y;
