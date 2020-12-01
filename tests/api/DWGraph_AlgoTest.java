@@ -43,24 +43,18 @@ class DWGraph_AlgoTest {
     @Test
     void save_load() {
         directed_weighted_graph g0 =DWGraph_DSTest.graph_creator(10,30,1);
-       // directed_weighted_graph g0=small_graph();
         directed_weighted_graph ga=new DWGraph_DS(g0);
-        System.out.println(ga.toString());
-
-        System.out.println(g0.toString());
         dw_graph_algorithms ag0 = new DWGraph_Algo();
         ag0.init(g0);
         String str = "graph.json";
         ag0.save(str);
         boolean bo=ag0.save(str);
         assertTrue(bo);
-
         boolean b=ag0.load(str);
-        System.out.println(g0.toString());
         assertTrue(b);
         assertEquals(ga,g0);
-       // g0.removeNode(0);
-       // assertNotEquals(g0,ga);
+        g0.removeNode(0);
+        assertNotEquals(g0,ga);
     }
     private directed_weighted_graph small_graph() {
         directed_weighted_graph g0 = DWGraph_DSTest.graph_creator(11);

@@ -154,7 +154,6 @@ public class DWGraph_DS implements directed_weighted_graph {
             if (this.getNode(src) != null && this.getNode(dest) != null) {
               if (Edges.get(src).get(dest) == null) {
                     edge_data e = new Edge_Data(src, dest, w);
-
                     Edges.get(src).put(dest, e);
                     edgesize++;
                     MC++;
@@ -191,6 +190,7 @@ public class DWGraph_DS implements directed_weighted_graph {
                 if(Edges.get(e.getDest()).get(key)!=null){
                     this.removeEdge( e.getDest(),key);
                 }
+                i = this.getE(key).iterator();
                 edgesize--;
                 MC++;
             }
