@@ -8,6 +8,7 @@ public class DWGraph_DS implements directed_weighted_graph {
 
     static class Edge_Data implements edge_data {
 
+
         int Src, Dest, Tag = 0;
         double Weight;
         String Info = "";
@@ -16,6 +17,38 @@ public class DWGraph_DS implements directed_weighted_graph {
             Src = src;
             Dest = dest;
             Weight = weight;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Edge_Data edge_data = (Edge_Data) o;
+
+            if (Src != edge_data.Src) return false;
+            if (Dest != edge_data.Dest) return false;
+            return Double.compare(edge_data.Weight, Weight) == 0;
+        }
+
+        @Override
+        public int hashCode() {
+            int result;
+            long temp;
+            result = Src;
+            result = 31 * result + Dest;
+            temp = Double.doubleToLongBits(Weight);
+            result = 31 * result + (int) (temp ^ (temp >>> 32));
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "Edge_Data{" +
+                    "Src=" + Src +
+                    ", Dest=" + Dest +
+                    ", Weight=" + Weight +
+                    '}';
         }
 
         @Override
@@ -163,11 +196,23 @@ public class DWGraph_DS implements directed_weighted_graph {
 
     @Override
     public int edgeSize() {
-        return this.Edges.size();  //maybe it's mistake need to check
+        return edgesize;
     }
 
     @Override
     public int getMC() {
         return this.MC;
+    }
+
+    @Override
+    public String toString() {
+        String s ="DWGraph_DS{";
+        Iterator<node_data> i=this.getV().iterator();
+        while (i.hasNext()){
+            Iterator<edge_data> e=this.getE(i.next().getKey()).iterator();
+            s=s+e.next().toString();
+        }
+        s=s+"}";
+        return s;
     }
 }
