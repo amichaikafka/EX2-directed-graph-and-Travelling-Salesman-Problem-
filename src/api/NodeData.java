@@ -3,7 +3,7 @@ package api;
 public class NodeData implements node_data{
     public static int id = -1;
    private int Key, Tag = 0;
-   private geo_location Geo_Loc = null;
+   private geo_location Geo_Loc =new Geo();
    private double Weight = Double.MAX_VALUE;
    private String Info = "";
 

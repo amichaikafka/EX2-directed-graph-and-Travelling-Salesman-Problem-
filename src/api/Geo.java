@@ -1,7 +1,7 @@
 package api;
 
 public class Geo implements geo_location {
-   private double X, Y, Z;
+   private double X=0, Y=0, Z=0;
 
     //constructor
     public Geo(){
@@ -70,7 +70,7 @@ public class Geo implements geo_location {
 
     @Override
     public String toString() {
-        return "Geo{" +
+        return "location{" +
                 "X=" + X +
                 ", Y=" + Y +
                 ", Z=" + Z +
