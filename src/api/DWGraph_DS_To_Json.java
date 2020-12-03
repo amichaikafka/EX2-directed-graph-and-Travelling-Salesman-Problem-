@@ -20,11 +20,11 @@ public class DWGraph_DS_To_Json implements JsonDeserializer<directed_weighted_gr
         JsonObject edgejson = jsonObj.get("Edges").getAsJsonObject();
         for (Entry<String,JsonElement> s: nodesjson.entrySet()) {
             JsonElement val_node=s.getValue();
-            int key =val_node.getAsJsonObject().get("Key").getAsInt();
+            int key =val_node.getAsJsonObject().get("id").getAsInt();
             int tag=val_node.getAsJsonObject().get("Tag").getAsInt();
             String info=val_node.getAsJsonObject().get("Info").getAsString();
             double weight =val_node.getAsJsonObject().get("Weight").getAsDouble();
-           JsonObject Geo_Loc=val_node.getAsJsonObject().get("Geo_Loc").getAsJsonObject();
+           JsonObject Geo_Loc=val_node.getAsJsonObject().get("pos").getAsJsonObject();
             double x =Geo_Loc.getAsJsonObject().get("X").getAsDouble();
             double y =Geo_Loc.getAsJsonObject().get("Y").getAsDouble();
             double z =Geo_Loc.getAsJsonObject().get("Z").getAsDouble();
@@ -38,9 +38,9 @@ public class DWGraph_DS_To_Json implements JsonDeserializer<directed_weighted_gr
             JsonObject val_edges=s.getValue().getAsJsonObject();
             for (Entry<String,JsonElement> set: val_edges.entrySet()) {
                 JsonElement edge_val=set.getValue();
-                int src =edge_val.getAsJsonObject().get("Src").getAsInt();
-                int dest =edge_val.getAsJsonObject().get("Dest").getAsInt();
-                double weight =edge_val.getAsJsonObject().get("Weight").getAsDouble();
+                int src =edge_val.getAsJsonObject().get("src").getAsInt();
+                int dest =edge_val.getAsJsonObject().get("dest").getAsInt();
+                double weight =edge_val.getAsJsonObject().get("w").getAsDouble();
                 graph.connect(src,dest,weight);
             }
 

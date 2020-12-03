@@ -45,12 +45,16 @@ class DWGraph_AlgoTest {
         directed_weighted_graph g0 =DWGraph_DSTest.graph_creator(10,30,1);
         directed_weighted_graph ga=new DWGraph_DS(g0);
         dw_graph_algorithms ag0 = new DWGraph_Algo();
+        System.out.println(g0.toString());
+        System.out.println(ga.toString());
         ag0.init(g0);
         String str = "graph.json";
         ag0.save(str);
         boolean bo=ag0.save(str);
         assertTrue(bo);
         boolean b=ag0.load(str);
+        System.out.println(g0.toString());
+
         assertTrue(b);
         assertEquals(ga,g0);
         g0.removeNode(0);

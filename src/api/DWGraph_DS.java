@@ -9,14 +9,14 @@ public class DWGraph_DS implements directed_weighted_graph {
     static class Edge_Data implements edge_data {
 
 
-        int Src, Dest, Tag = 0;
-        double Weight;
+        int src, dest, Tag = 0;
+        double w;
         String Info = "";
 
         public Edge_Data(int src, int dest, double weight) {
-            Src = src;
-            Dest = dest;
-            Weight = weight;
+            this.src = src;
+            this.dest = dest;
+            w = weight;
         }
 
         @Override
@@ -26,37 +26,37 @@ public class DWGraph_DS implements directed_weighted_graph {
 
             Edge_Data edge_data = (Edge_Data) o;
 
-            return Double.compare(edge_data.Weight, Weight) == 0;
+            return Double.compare(edge_data.w, w) == 0;
         }
 
         @Override
         public int hashCode() {
-            long temp = Double.doubleToLongBits(Weight);
+            long temp = Double.doubleToLongBits(w);
             return (int) (temp ^ (temp >>> 32));
         }
 
         @Override
         public String toString() {
             return "Edge_Data{" +
-                    "Src=" + Src +
-                    ", Dest=" + Dest +
-                    ", Weight=" + Weight +
+                    "src=" + src +
+                    ", dest=" + dest +
+                    ", Weight=" + w +
                     '}';
         }
 
         @Override
         public int getSrc() {
-            return this.Src;
+            return this.src;
         }
 
         @Override
         public int getDest() {
-            return this.Dest;
+            return this.dest;
         }
 
         @Override
         public double getWeight() {
-            return this.Weight;
+            return this.w;
         }
 
         @Override
@@ -189,9 +189,10 @@ public class DWGraph_DS implements directed_weighted_graph {
                 this.removeEdge(key, e.getDest());
                 if(Edges.get(e.getDest()).get(key)!=null){
                     this.removeEdge( e.getDest(),key);
+
                 }
                 i = this.getE(key).iterator();
-                edgesize--;
+
                 MC++;
             }
             Edges.remove(key, Edges.get(key));
@@ -205,7 +206,9 @@ public class DWGraph_DS implements directed_weighted_graph {
         edge_data e = this.getEdge(src, dest);
         if (e != null) {
             Edges.get(src).remove(dest, e);
+            edgesize--;
         }
+
         return e;
     }
 
@@ -224,7 +227,7 @@ public class DWGraph_DS implements directed_weighted_graph {
         return this.MC;
     }
 
-    @Override
+   @Override
     public String toString() {
         String s ="DWGraph_DS{";
         Iterator<node_data> i=this.getV().iterator();
