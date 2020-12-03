@@ -9,11 +9,49 @@ import java.util.*;
 import java.util.List;
 
 public class DWGraph_Algo implements dw_graph_algorithms {
-    private class comp implements Comparator<node_data> {
+
+    private class node_algo {
+        private node_data node;
+        private int key;
+        private double w;
+        private boolean visit;
+        public node_algo (node_data n){
+            this.node=n;
+            this.key=n.getKey();
+            this.w=Double.MAX_VALUE;
+            this.visit=false;
+
+        }
+
+        public int getKey() {
+            return key;
+        }
+
+        public double getW() {
+            return w;
+        }
+
+        public void setW(double w) {
+            this.w = w;
+        }
+
+        public node_data getNode() {
+            return node;
+        }
+
+        public boolean isVisit() {
+            return visit;
+        }
+
+        public void setVisit(boolean visit) {
+            this.visit = visit;
+        }
+    }
+    private class comp implements Comparator<node_algo> {
 
         @Override
-        public int compare(node_data o1, node_data o2) {
-            return Double.compare(o1.getWeight(), o2.getWeight());
+        public int compare(node_algo o1, node_algo o2) {
+            return Double.compare(o1.getW(), o2.getW());
         }
     }
     private directed_weighted_graph g;
@@ -110,25 +148,36 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      * @return HashMap<Integer, node_info> that contain every parent of each node (consider minimum distance )
      *  in this search starting at key (id) node.
      */
-    private HashMap<Integer, node_data> Dijkstra(int key) {
+    private HashMap<Integer, node_algo> Dijkstra(int key) {
         HashMap<Integer, node_data> p = new HashMap<Integer, node_data>();
+        HashMap<Integer, node_algo> ph = new HashMap<Integer, node_algo>();
         comp compare = new comp();//comperator to determine the order in the priorityqueue.
-        PriorityQueue<node_data> pq = new PriorityQueue(compare);
+        PriorityQueue<node_algo> pq = new PriorityQueue(compare);
         node_data n = this.g.getNode(key);
-        n.setWeight(0);
-        pq.add(n);
+        node_algo nh=new node_algo(n);
+       // n.setWeight(0);
+       // pq.add(n);
+        nh.setW(0);
+        pq.add(nh);
         while (!(pq.isEmpty())) {
-            n = pq.poll();
-            if(pq.peek()!=null&&pq.peek().getTag()<n.getTag()){//double check to avoid mistake in the order
+           // n = pq.poll();
+            nh = pq.poll();
+            /*if(pq.peek()!=null&&pq.peek().getTag()<n.getTag()){//double check to avoid mistake in the order
                 pq.add(n);
                 n=pq.poll();
+            }*/
+            if(pq.peek()!=null&&pq.peek().getW()< nh.getW()){//double check to avoid mistake in the order
+                pq.add(nh);
+                nh=pq.poll();
             }
-            n.setInfo("v");//mark as visited when node has pollen from the queue
+           // n.setInfo("v");//mark as visited when node has pollen from the queue
+            nh.setVisit(true);
             Iterator<edge_data>  e = this.g.getE(n.getKey()).iterator();
             while (e.hasNext()) {
                 edge_data de = e.next();
                 node_data t=this.g.getNode(de.getDest());
-                if (!t.getInfo().equals("v")) {//do the next operation if not visited
+                node_algo th=new node_algo(t);
+                /*if (!t.getInfo().equals("v")) {//do the next operation if not visited
                     double w = this.g.getEdge(n.getKey(), t.getKey()).getWeight() + n.getWeight();
                     if (w < t.getTag()) {//chek if it's the minimum distance from source's node.
                         t.setWeight(w);//if so set the new distance
@@ -139,10 +188,30 @@ public class DWGraph_Algo implements dw_graph_algorithms {
                             pq.add(t);// add the new node (at the search ) to the queue
                         }
                     }
+                }*/
+                if (!th.isVisit()) {//do the next operation if not visited
+                    double w = this.g.getEdge(n.getKey(), t.getKey()).getWeight() + th.getW();
+                    if (w < th.getW()) {//chek if it's the minimum distance from source's node.
+                        th.setW(w);//if so set the new distance
+                        if (ph.containsKey(th.getKey())) {//check it its not the first time we get to this node
+                            ph.replace(th.getKey(), nh);//if so just replace his parent, to make sure that's the correct parent in shortest path
+                        } else {
+                            ph.put(th.getKey(), nh);//if not enter new key and parent to the map
+                            pq.add(th);// add the new node (at the search ) to the queue
+                        }
+                    }
                 }
             }
         }
-        return p;
+        return ph;
+    }
+    private void initnode(HashMap<Integer,node_algo> p){
+        Iterator<node_algo> i=p.values().iterator();
+        while(i.hasNext()){
+            node_algo t=i.next();
+            t.setW(Double.MAX_VALUE);
+            t.setVisit(false);
+        }
     }
     /**
      * returns the length of the shortest path between src to dest
@@ -154,7 +223,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
 
     @Override
     public double shortestPathDist(int src, int dest) {
-        if (src == dest)
+       /* if (src == dest)
             return 0;
         initgraph();
         HashMap<Integer, node_data> p = Dijkstra(src);
@@ -162,7 +231,17 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         if (!p.containsKey(dest)) {
             return -1;
         }
-        return n.getWeight();
+        return n.getWeight();*/
+        if (src == dest)
+            return 0;
+        initgraph();
+        HashMap<Integer, node_algo> p = Dijkstra(src);
+        if (!p.containsKey(dest)) {
+            return -1;
+        }
+        double dist =p.get(dest).getW();
+       initnode(p);
+        return dist;
     }
 
     /**
@@ -176,7 +255,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
 
     @Override
     public List<node_data> shortestPath(int src, int dest) {
-        initgraph();
+       /* initgraph();
         HashMap<Integer, node_data> p = Dijkstra(src);//hash map with the parent of each node in this search
         if (!p.containsKey(dest)) {//if the map does not contain dest's key there is no path between theos nodes
             return null;
@@ -186,6 +265,22 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         path.add(t);
         while (t != this.g.getNode(src) && t != null) {
             t = p.get(t.getKey());
+            path.addFirst(t);//add the nodes to the list in the correct order
+        }
+        if (t == null)
+            return null;
+        return path;*/
+        initgraph();
+        HashMap<Integer, node_algo> p = Dijkstra(src);//hash map with the parent of each node in this search
+        if (!p.containsKey(dest)) {//if the map does not contain dest's key there is no path between theos nodes
+            return null;
+        }
+        node_algo th = p.get(dest);
+        node_data t = th.getNode();
+        LinkedList<node_data> path = new LinkedList<>();
+        path.add(t);
+        while (t != this.g.getNode(src) && t != null) {
+            t = p.get(th.getKey()).getNode();
             path.addFirst(t);//add the nodes to the list in the correct order
         }
         if (t == null)
