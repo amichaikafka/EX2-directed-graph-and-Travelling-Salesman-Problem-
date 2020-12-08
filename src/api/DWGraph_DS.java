@@ -181,18 +181,19 @@ public class DWGraph_DS implements directed_weighted_graph {
     public node_data removeNode(int key) {
         node_data t = this.getNode(key);//the node we want to remove
         if (t != null) {
-
+            Iterator<node_data> it = this.getV().iterator();
+            while (it.hasNext()){
+                node_data t1=it.next();
+                if(Edges.get(t1.getKey()).get(key)!=null){
+                    this.removeEdge( t1.getKey(),key);
+                }
+                MC++;
+            }
             Iterator<edge_data> i = this.getE(key).iterator();
             while (i.hasNext()) {
-
                 edge_data e = i.next();
                 this.removeEdge(key, e.getDest());
-                if(Edges.get(e.getDest()).get(key)!=null){
-                    this.removeEdge( e.getDest(),key);
-
-                }
                 i = this.getE(key).iterator();
-
                 MC++;
             }
             Edges.remove(key, Edges.get(key));
@@ -203,14 +204,16 @@ public class DWGraph_DS implements directed_weighted_graph {
 
     @Override
     public edge_data removeEdge(int src, int dest) {
-        edge_data e = this.getEdge(src, dest);
-        if (e != null) {
-            Edges.get(src).remove(dest, e);
-            edgesize--;
-        }
 
-        return e;
+            edge_data e = this.getEdge(src, dest);
+            if (e != null) {
+                Edges.get(src).remove(dest, e);
+                edgesize--;
+            }
+            return e;
     }
+
+
 
     @Override
     public int nodeSize() {

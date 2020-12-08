@@ -1,25 +1,28 @@
 package api;
 
+import java.util.Arrays;
+
 public class Geo implements geo_location {
-   private double X=0, Y=0, Z=0;
+   private double x,y,z;
 
     //constructor
     public Geo(){
 
     }
     public Geo(double _x, double _y, double _z) {
-        this.X = _x;
-        this.Y = _y;
-        this.Z = _z;
+        this.x = _x;
+        this.y = _y;
+        this.z= _z;
 
     }
 
     //copy constructor
     public Geo(geo_location p) {
-        this.X = p.x();
-        this.Y = p.y();
-        this.Z = p.z();
+        this.x = p.x();
+        this.y = p.y();
+        this.z = p.z();
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -28,42 +31,42 @@ public class Geo implements geo_location {
 
         Geo geo = (Geo) o;
 
-        if (Double.compare(geo.X, X) != 0) return false;
-        if (Double.compare(geo.Y, Y) != 0) return false;
-        return Double.compare(geo.Z, Z) == 0;
+        if (Double.compare(geo.x, x) != 0) return false;
+        if (Double.compare(geo.y, y) != 0) return false;
+        return Double.compare(geo.z, z) == 0;
     }
 
     @Override
     public int hashCode() {
         int result;
         long temp;
-        temp = Double.doubleToLongBits(X);
+        temp = Double.doubleToLongBits(x);
         result = (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(Y);
+        temp = Double.doubleToLongBits(y);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(Z);
+        temp = Double.doubleToLongBits(z);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
 
     @Override
     public double x() {
-        return this.X;
+        return this.x;
     }
 
     @Override
     public double y() {
-        return this.Y;
+        return this.y;
     }
 
     @Override
     public double z() {
-        return this.Z;
+        return this.z;
     }
 
     @Override
     public double distance(geo_location g) {
-        double pow_point = Math.pow((this.X - g.x()), 2) + Math.pow((this.Y - g.y()), 2) + Math.pow((this.Z - g.z()), 2);
+        double pow_point = Math.pow((this.x - g.x()), 2) + Math.pow((this.y - g.y()), 2) + Math.pow((this.z() - g.z()), 2);
         pow_point = Math.sqrt(pow_point);
         return pow_point;
     }
@@ -71,9 +74,9 @@ public class Geo implements geo_location {
     @Override
     public String toString() {
         return "location{" +
-                "X=" + X +
-                ", Y=" + Y +
-                ", Z=" + Z +
+                "X=" + x +
+                ", Y=" + y +
+                ", Z=" + z +
                 '}';
     }
 }
