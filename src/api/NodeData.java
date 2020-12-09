@@ -11,6 +11,9 @@ public class NodeData implements node_data{
         uniqe++;
         id = uniqe;
     }
+    public NodeData(int id){//use only in testes class
+        this.id=id;
+    }
 
     public NodeData(int key, int tag, geo_location geo_Loc, double weight, String info) {
         id = key;

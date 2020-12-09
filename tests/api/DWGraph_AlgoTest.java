@@ -114,10 +114,9 @@ class DWGraph_AlgoTest {
 
         assertTrue(b);
         assertEquals(ga,g0);
-        g0.removeNode(0);
-        assertNotEquals(g0,ga);
+
     }
-    private directed_weighted_graph small_graph() {
+    public static directed_weighted_graph small_graph() {
         directed_weighted_graph g0 = DWGraph_DSTest.graph_creator(11);
         g0.connect(0,1,1);
         g0.connect(0,2,2);

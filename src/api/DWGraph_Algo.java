@@ -248,7 +248,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         src.setW(0);
         pq.add(src);
         while (!(pq.isEmpty())) {
-//System.out.println(pq.toString());
             node_algo na = pq.poll();
             if(pq.peek()!=null&&pq.peek().getW()< na.getW()){//double check to avoid mistake in the order
                 pq.add(na);
