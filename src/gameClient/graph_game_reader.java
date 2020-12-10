@@ -2,6 +2,7 @@ package gameClient;
 
 import api.*;
 import com.google.gson.*;
+import gameClient.util.Point3D;
 
 import java.io.FileReader;
 import java.lang.reflect.Type;
@@ -20,11 +21,7 @@ public class graph_game_reader implements JsonDeserializer<directed_weighted_gra
 
             int key =nodeElement.getAsJsonObject().get("id").getAsInt();
             String Geo_Loc=nodeElement.getAsJsonObject().get("pos").getAsString();
-            String[] a = Geo_Loc.split(",");
-            double x = Double.parseDouble(a[0]);
-            double y = Double.parseDouble(a[1]);
-            double z = Double.parseDouble(a[2]);
-            geo_location location = new Geo(x, y, z);
+            Point3D location = new Point3D(Geo_Loc);
             node_data n =new NodeData(key,location);
             graph.addNode(n);
 

@@ -16,33 +16,35 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Ex2 {
-    public static void main (String[]args){
-       game_service game = Game_Server_Ex2.getServer(23);
-//        System.out.println(game.getGraph());
-//
-//        directed_weighted_graph g=loadgraph(game.getGraph());
-//        System.out.println(g);
+
+    public static void main(String[] args) {
+//        Thread client = new Thread(new Ex2_Client());
+        game_service game = Game_Server_Ex2.getServer(0);
+        System.out.println(game.getGraph());
+
+        directed_weighted_graph g = loadgraph(game.getGraph());
+        System.out.println(g);
+        ArrayList<CL_Pokemon> poks=Arena.json2Pokemons(game.getPokemons());
+        for (CL_Pokemon c:poks) {
+            Arena.updateEdge(c,g);
+        }
         System.out.println(game.getPokemons());
-        List<CL_Pokemon> c=loadpokemons(game.getPokemons());
-        System.out.println(c);
+        System.out.println(game.getAgents());
+        game.startGame();
+        while (game.isRunning()) {
+
+
+        }
     }
 
     public static directed_weighted_graph loadgraph(String json) {
 
 
-            GsonBuilder Gbuilde = new GsonBuilder();
-            Gbuilde.registerTypeAdapter(DWGraph_DS.class, new graph_game_reader());
-            Gson gson = Gbuilde.create();
+        GsonBuilder Gbuilde = new GsonBuilder();
+        Gbuilde.registerTypeAdapter(DWGraph_DS.class, new graph_game_reader());
+        Gson gson = Gbuilde.create();
 
-            return gson.fromJson(json,DWGraph_DS.class);
+        return gson.fromJson(json, DWGraph_DS.class);
     }
-    public static List<CL_Pokemon> loadpokemons(String json) {
 
-            GsonBuilder Gbuilde = new GsonBuilder();
-            Gbuilde.registerTypeAdapter(List.class, new pokemons_reader());
-            Gson gson = Gbuilde.create();
-            return gson.fromJson(json,List.class);
-
-
-    }
 }
