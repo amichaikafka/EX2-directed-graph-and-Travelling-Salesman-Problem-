@@ -14,7 +14,10 @@ public class NodeData implements node_data{
     public NodeData(int id){//use only in testes class
         this.id=id;
     }
-
+    public NodeData(int id,geo_location location){//use only in testes class
+        this.id=id;
+        this.pos=location;
+    }
     public NodeData(int key, int tag, geo_location geo_Loc, double weight, String info) {
         id = key;
         Tag = tag;

@@ -20,11 +20,22 @@ public class CL_Pokemon {
 		min_dist = -1;
 		min_ro = -1;
 	}
+
+	public CL_Pokemon(double _value, int _type, Point3D _pos) {
+		this._value = _value;
+		this._type = _type;
+		this._pos = _pos;
+	}
+
 	public static CL_Pokemon init_from_json(String json) {
 		CL_Pokemon ans = null;
 		try {
 			JSONObject p = new JSONObject(json);
-			int id = p.getInt("id");
+			double val=p.getDouble("value");
+			int t = p.getInt("type");
+			String s= p.getString("pos");
+			Point3D loc=new Point3D(s);
+			ans =new CL_Pokemon(val,t,loc);
 
 		}
 		catch(Exception e) {
