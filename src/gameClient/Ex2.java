@@ -19,20 +19,29 @@ public class Ex2 {
 
     public static void main(String[] args) {
 //        Thread client = new Thread(new Ex2_Client());
-        game_service game = Game_Server_Ex2.getServer(0);
-        System.out.println(game.getGraph());
-
+        game_service game = Game_Server_Ex2.getServer(11);
+//        System.out.println(game.toString());
+//        System.out.println(game.getGraph());
         directed_weighted_graph g = loadgraph(game.getGraph());
-        System.out.println(g);
-        ArrayList<CL_Pokemon> poks=Arena.json2Pokemons(game.getPokemons());
+//        System.out.println(game.getPokemons());
+//        System.out.println(game.getAgents());
+
+
+//        System.out.println(g);
+       ArrayList<CL_Pokemon> poks=Arena.json2Pokemons(game.getPokemons());
         for (CL_Pokemon c:poks) {
             Arena.updateEdge(c,g);
         }
         System.out.println(game.getPokemons());
         System.out.println(game.getAgents());
+        game.addAgent(0);
+        System.out.println(game.getAgents());
         game.startGame();
         while (game.isRunning()) {
 
+game.chooseNextEdge(0,1);
+game.move();
+            System.out.println(game.getAgents());
 
         }
     }

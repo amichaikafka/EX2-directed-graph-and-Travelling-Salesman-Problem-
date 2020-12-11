@@ -30,14 +30,23 @@ public class Ex2_Client implements Runnable{
 		String pks = game.getPokemons();
 		directed_weighted_graph gg = game.getJava_Graph_Not_to_be_used();
 		init(game);
-		
+
+		where w=new where(game);
+		//w.prepare_in_advance();
 		game.startGame();
 		_win.setTitle("Ex2 - OOP: (NONE trivial Solution) "+game.toString());
 		int ind=0;
 		long dt=100;
 		
 		while(game.isRunning()) {
-			moveAgants(game, gg);
+			game.move();
+			ArrayList<CL_Pokemon> c =Arena.json2Pokemons(game.getPokemons());
+			for (CL_Pokemon p:c) {
+
+				w.next_step(p);
+			}
+			//game.move();
+			//moveAgants(game, gg);
 			try {
 				if(ind%1==0) {_win.repaint();}
 				Thread.sleep(dt);
@@ -61,6 +70,7 @@ public class Ex2_Client implements Runnable{
 	 */
 	private static void moveAgants(game_service game, directed_weighted_graph gg) {
 		String lg = game.move();
+		System.out.println(lg);
 		List<CL_Agent> log = Arena.getAgents(lg, gg);
 		_ar.setAgents(log);
 		//ArrayList<OOP_Point3D> rs = new ArrayList<OOP_Point3D>();
@@ -121,7 +131,10 @@ public class Ex2_Client implements Runnable{
 			System.out.println(game.getPokemons());
 			int src_node = 0;  // arbitrary node, you should start at one of the pokemon
 			ArrayList<CL_Pokemon> cl_fs = Arena.json2Pokemons(game.getPokemons());
-			for(int a = 0;a<cl_fs.size();a++) { Arena.updateEdge(cl_fs.get(a),gg);}
+			for(int a = 0;a<cl_fs.size();a++) {
+				Arena.updateEdge(cl_fs.get(a),gg);
+				System.out.println(cl_fs.get(a).get_edge().getDest());
+			}
 			for(int a = 0;a<rs;a++) {
 				int ind = a%cl_fs.size();
 				CL_Pokemon c = cl_fs.get(ind);
