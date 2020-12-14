@@ -393,6 +393,10 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         return path;*/
         initgraph();
         node_algo s=new node_algo(g.getNode(src));
+
+        int s1=src;
+        System.out.println(g.getNode(dest));
+        System.out.println(dest);
         node_algo d=new node_algo(g.getNode(dest));
         HashMap<Integer, node_algo> p = Dijkstra(s,d);//hash map with the parent of each node in this search
         if (p==null) {//if the map does not contain dest's key there is no path between theos nodes
@@ -401,15 +405,15 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         node_algo th = d;
         node_data t = th.getNode();
         LinkedList<node_data> path = new LinkedList<>();
-        System.out.println(p.toString());
+
         path.add(t);
         while (t != this.g.getNode(src) && t != null) {
-            System.out.println(path.toString());
+
             t = p.get(th.getKey()).getNode();
             path.addFirst(t);//add the nodes to the list in the correct order
             th=p.get(th.getKey());
         }
-        System.out.println(path.toString());
+
         if (t == null)
             return null;
         return path;

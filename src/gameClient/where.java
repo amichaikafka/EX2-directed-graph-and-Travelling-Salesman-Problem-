@@ -18,6 +18,11 @@ public class where implements Runnable {
     private Arena a = new Arena();
     private dw_graph_algorithms ga;
     private int agentsize;
+    public int avilible = 0;
+
+    public Arena getA() {
+        return a;
+    }
 
     public where(game_service game) {
         ga = new DWGraph_Algo();
@@ -27,6 +32,7 @@ public class where implements Runnable {
         ArrayList<CL_Pokemon> poks = Arena.json2Pokemons(game.getPokemons());
         for (CL_Pokemon c : poks) {
             Arena.updateEdge(c, g);
+
         }
         List<CL_Agent> ag = Arena.getAgents(game.getAgents(), g);
         a.setGraph(g);
@@ -51,21 +57,36 @@ public class where implements Runnable {
         for (int i = 0; i < agentsize; i++) {
             CL_Pokemon c = p.get(i);
             edge_data e = c.get_edge();
-            int start_node = e.getSrc();
+            int start_node = Math.max(e.getSrc(), e.getDest());
             if (c.getType() > 0) {
-                start_node = e.getDest();
+                start_node = Math.min(e.getSrc(), e.getDest());
             }
             game.addAgent(start_node);
+            this.avilible++;
         }
     }
 
     public void next_step(CL_Pokemon pokemon) {
+        System.out.println(avilible);
+//        while (avilible==0){
+//            try {
+//                System.out.println(avilible);
+//                wait();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        while (checkavilible() == 0) {
+//            System.out.println("C:" + checkavilible());
+//
+//        }
+        System.out.println(pokemon);
         List<CL_Agent> agents = Arena.getAgents(game.getAgents(), a.getGraph());
         int dest;
         if (pokemon.getType() < 0) {
-            dest = pokemon.get_edge().getDest();
+            dest = Math.min(pokemon.get_edge().getDest(), pokemon.get_edge().getSrc());
         } else {
-            dest = pokemon.get_edge().getSrc();
+            dest = Math.max(pokemon.get_edge().getSrc(), pokemon.get_edge().getDest());
         }
         List<node_data> path = null;
         double closestime = Double.MAX_VALUE;
@@ -73,20 +94,25 @@ public class where implements Runnable {
         CL_Agent ca = null;
         for (CL_Agent ag : agents) {
             if (ag.getNextNode() == -1) {
+
+
                 int src = ag.getSrcNode();
                 edge_data e = pokemon.get_edge();
                 double t = 0;
 
                 t = ga.shortestPathDist(src, dest) / ag.getSpeed();
 
-                if (t >= 0 && closestime > t) {
+                if (t > 0 && closestime > t) {
                     closestime = t;
                     closest = ag.getID();
                     ca = ag;
                 }
             }
         }
-        if(ca!=null) {
+        if (ca != null) {
+
+            //  avilible--;
+//            notifyAll();
             double[] arr = next_step(ca);
             if (arr[1] < closestime) {
                 path = ga.shortestPath(ca.getSrcNode(), (int) arr[0]);
@@ -94,17 +120,48 @@ public class where implements Runnable {
                 path = ga.shortestPath(ca.getSrcNode(), dest);
             }
             if (path != null) {
+                //  System.out.println(a.getPokemons());
 
-                game.chooseNextEdge(closest, path.get(1).getKey());
-                System.out.println("Agent: "+ca.getID()+", val: "+ca.getValue()+"   turned to node: "+ path.get(1).getKey());
 
+                for (int i = 1; i < path.size(); i++) {
+                    game.chooseNextEdge(closest, path.get(i).getKey());
+                    game.move();
+                    System.out.println("Agent: " + ca.getID() + ", val: " + ca.getValue() + "src node:" + ca.getSrcNode() + "   turned to node: " + path.get(1).getKey());
+                }
             }
         }
     }
 
+    public int checkavilible() {
+//        while(avilible!=0){
+//            try {
+//                wait();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        for(int i=0;i<a.getAgents().size();i++){
+//            if(!a.getAgents().get(i).isMoving()){
+//                avilible++;
+//               notifyAll();
+//            }
+//        }
+        int count = 0;
+        for (int i = 0; i < a.getAgents().size(); i++) {
+            if (!a.getAgents().get(i).isMoving()) {
+                count++;
 
-    public double[] next_step(CL_Agent agent) {
-        ArrayList<CL_Pokemon> pokemons = Arena.json2Pokemons(game.getPokemons());
+            }
+
+        }
+        System.out.println("count:" + count);
+        avilible = count;
+        return avilible;
+    }
+
+
+    private double[] next_step(CL_Agent agent) {
+        List<CL_Pokemon> pokemons = a.getPokemons();
         int dest = -1;
         double[] arr = new double[2];
         List<node_data> path = null;
@@ -113,12 +170,13 @@ public class where implements Runnable {
         CL_Pokemon po = null;
         for (CL_Pokemon c : pokemons) {
             if (c.getType() < 0) {
-                dest = c.get_edge().getDest();
+                dest = Math.min(c.get_edge().getDest(), c.get_edge().getSrc());
             } else {
-                dest = c.get_edge().getSrc();
+                dest = Math.max(c.get_edge().getSrc(), c.get_edge().getDest());
             }
+
             double t = ga.shortestPathDist(agent.getSrcNode(), dest);
-            if (t >= 0 && closestime > t) {
+            if (t > 0 && closestime > t) {
                 closestime = t;
                 fineldest = dest;
             }
@@ -132,6 +190,7 @@ public class where implements Runnable {
 
     @Override
     public void run() {
+
 
     }
 }

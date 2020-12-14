@@ -10,6 +10,7 @@ public class CL_Pokemon {
 	private Point3D _pos;
 	private double min_dist;
 	private int min_ro;
+	private boolean willeat=false;
 	
 	public CL_Pokemon(Point3D p, int t, double v, double s, edge_data e) {
 		_type = t;
@@ -21,6 +22,13 @@ public class CL_Pokemon {
 		min_ro = -1;
 	}
 
+	public boolean isWilleat() {
+		return willeat;
+	}
+
+	public void setWilleat(boolean willeat) {
+		this.willeat = willeat;
+	}
 
 	public static CL_Pokemon init_from_json(String json) {
 		CL_Pokemon ans = null;
@@ -37,9 +45,10 @@ public class CL_Pokemon {
 		}
 		return ans;
 	}
-	public String toString() {return "F:{v="+_value+", t="+_type+"}";}
+	public String toString() {return "F:{v="+_value+", t="+_type+"edge="+_edge+"}";}
 	public edge_data get_edge() {
 		return _edge;
+
 	}
 
 	public void set_edge(edge_data _edge) {
