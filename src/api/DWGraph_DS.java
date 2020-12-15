@@ -37,7 +37,7 @@ public class DWGraph_DS implements directed_weighted_graph {
 
         @Override
         public String toString() {
-            return "Edge_Data{" +
+            return "{" +
                     "src=" + src +
                     ", dest=" + dest +
                     ", Weight=" + w +
@@ -87,15 +87,16 @@ public class DWGraph_DS implements directed_weighted_graph {
     private int MC = 0, edgesize = 0;
 
     public DWGraph_DS() {
-         this.MC = 0;
-         this.edgesize = 0;
+        this.MC = 0;
+        this.edgesize = 0;
     }
+
     public DWGraph_DS(directed_weighted_graph g) {
         node_data n1;
         Iterator<node_data> e = g.getV().iterator();
         while (e.hasNext()) {
             node_data t = e.next();
-            node_data n=new NodeData(t);
+            node_data n = new NodeData(t);
             this.addNode(t);
         }
 
@@ -144,15 +145,15 @@ public class DWGraph_DS implements directed_weighted_graph {
     @Override
     public void addNode(node_data n) {
         nodes.put(n.getKey(), n);
-        HashMap<Integer,edge_data> naibers= new HashMap<Integer, edge_data>();
-        Edges.put(n.getKey(),naibers);
+        HashMap<Integer, edge_data> naibers = new HashMap<Integer, edge_data>();
+        Edges.put(n.getKey(), naibers);
     }
 
     @Override
     public void connect(int src, int dest, double w) {
         if (src != dest) {
             if (this.getNode(src) != null && this.getNode(dest) != null) {
-              if (Edges.get(src).get(dest) == null) {
+                if (Edges.get(src).get(dest) == null) {
                     edge_data e = new Edge_Data(src, dest, w);
                     Edges.get(src).put(dest, e);
                     edgesize++;
@@ -182,10 +183,10 @@ public class DWGraph_DS implements directed_weighted_graph {
         node_data t = this.getNode(key);//the node we want to remove
         if (t != null) {
             Iterator<node_data> it = this.getV().iterator();
-            while (it.hasNext()){
-                node_data t1=it.next();
-                if(Edges.get(t1.getKey()).get(key)!=null){
-                    this.removeEdge( t1.getKey(),key);
+            while (it.hasNext()) {
+                node_data t1 = it.next();
+                if (Edges.get(t1.getKey()).get(key) != null) {
+                    this.removeEdge(t1.getKey(), key);
                 }
                 MC++;
             }
@@ -205,14 +206,13 @@ public class DWGraph_DS implements directed_weighted_graph {
     @Override
     public edge_data removeEdge(int src, int dest) {
 
-            edge_data e = this.getEdge(src, dest);
-            if (e != null) {
-                Edges.get(src).remove(dest, e);
-                edgesize--;
-            }
-            return e;
+        edge_data e = this.getEdge(src, dest);
+        if (e != null) {
+            Edges.get(src).remove(dest, e);
+            edgesize--;
+        }
+        return e;
     }
-
 
 
     @Override
@@ -230,20 +230,24 @@ public class DWGraph_DS implements directed_weighted_graph {
         return this.MC;
     }
 
-   @Override
+    @Override
     public String toString() {
-        String s ="DWGraph_DS{";
-        Iterator<node_data> i=this.getV().iterator();
+        String s = "DWGraph_DS{ nodes{";
+        Iterator<node_data> i = this.getV().iterator();
         while (i.hasNext()) {
             node_data t = i.next();
-            s = s +t.getKey()+":{";
-                    Iterator < edge_data > e = this.getE(t.getKey()).iterator();
-            while (e.hasNext()) {
-                s = s + e.next().toString();
-            }
-            s=s+"}";
+            s = s +"{"+ t.getKey()+","+t.getLocation().toString() + "}";
         }
-        s=s+"}";
+        s = s + "} Edges {";
+        i = this.getV().iterator();
+        while (i.hasNext()) {
+            node_data t = i.next();
+            Iterator<edge_data> e = this.getE(t.getKey()).iterator();
+            while (e.hasNext()) {
+                s = s + e.next().toString()+",";
+            }
+        }
+        s = s + "}";
         return s;
     }
 }

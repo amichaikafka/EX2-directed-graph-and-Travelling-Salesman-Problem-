@@ -56,6 +56,8 @@ public class Point3D implements geo_location, Serializable{
         return Math.sqrt(t);
     }
 
+
+
     public boolean equals(Object p) {
         if(p==null || !(p instanceof geo_location)) {return false;}
         Point3D p2 = (Point3D)p;

@@ -11,6 +11,8 @@ public class CL_Pokemon {
 	private double min_dist;
 	private int min_ro;
 	private boolean willeat=false;
+	private static int id=0;
+	private int key;
 	
 	public CL_Pokemon(Point3D p, int t, double v, double s, edge_data e) {
 		_type = t;
@@ -20,6 +22,37 @@ public class CL_Pokemon {
 		_pos = p;
 		min_dist = -1;
 		min_ro = -1;
+		key=id;
+		id++;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		CL_Pokemon pokemon = (CL_Pokemon) o;
+
+		if (Double.compare(pokemon._value, _value) != 0) return false;
+		if (_type != pokemon._type) return false;
+		if (_edge != null ? !_edge.equals(pokemon._edge) : pokemon._edge != null) return false;
+		return _pos.equals(pokemon._pos);
+	}
+
+	@Override
+	public int hashCode() {
+		int result;
+		long temp;
+		result = _edge != null ? _edge.hashCode() : 0;
+		temp = Double.doubleToLongBits(_value);
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		result = 31 * result + _type;
+		result = 31 * result + _pos.hashCode();
+		return result;
+	}
+
+	public int getKey() {
+		return key;
 	}
 
 	public boolean isWilleat() {

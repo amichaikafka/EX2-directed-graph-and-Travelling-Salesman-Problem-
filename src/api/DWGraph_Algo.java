@@ -394,9 +394,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         initgraph();
         node_algo s=new node_algo(g.getNode(src));
 
-        int s1=src;
-        System.out.println(g.getNode(dest));
-        System.out.println(dest);
         node_algo d=new node_algo(g.getNode(dest));
         HashMap<Integer, node_algo> p = Dijkstra(s,d);//hash map with the parent of each node in this search
         if (p==null) {//if the map does not contain dest's key there is no path between theos nodes
