@@ -38,6 +38,7 @@ public class MyFrame extends JFrame{
 		Range ry = new Range(this.getHeight()-10,150);
 		Range2D frame = new Range2D(rx,ry);
 		directed_weighted_graph g = _ar.getGraph();
+
 		_w2f = Arena.w2f(g,frame);
 	}
 	public void paint(Graphics g) {
@@ -49,11 +50,12 @@ public class MyFrame extends JFrame{
 		drawGraph(g);
 		drawAgants(g);
 		drawInfo(g);
-		
+
 	}
 	private void drawInfo(Graphics g) {
 		List<String> str = _ar.get_info();
-		String dt = "none";
+		String dt = "7777777777777777777777777777777777777777777";
+
 		for(int i=0;i<str.size();i++) {
 			g.drawString(str.get(i)+" dt: "+dt,100,60+i*20);
 		}
@@ -90,6 +92,8 @@ public class MyFrame extends JFrame{
 
 				geo_location fp = this._w2f.world2frame(c);
 				g.fillOval((int)fp.x()-r, (int)fp.y()-r, 2*r, 2*r);
+
+				g.drawString("" + f.getValue(), (int)fp.x(), (int) fp.y()-1  * r);
 			//	g.drawString(""+n.getKey(), fp.ix(), fp.iy()-4*r);
 				
 			}
@@ -103,12 +107,14 @@ public class MyFrame extends JFrame{
 		int i=0;
 		while(rs!=null && i<rs.size()) {
 			geo_location c = rs.get(i).getLocation();
+			int id=rs.get(i).getID();
 			int r=8;
 			i++;
 			if(c!=null) {
 
 				geo_location fp = this._w2f.world2frame(c);
 				g.fillOval((int)fp.x()-r, (int)fp.y()-r, 2*r, 2*r);
+				g.drawString("" + id, (int) fp.x(), (int) fp.y() - 2 * r);
 			}
 		}
 	}
@@ -125,6 +131,12 @@ public class MyFrame extends JFrame{
 		geo_location s0 = this._w2f.world2frame(s);
 		geo_location d0 = this._w2f.world2frame(d);
 		g.drawLine((int)s0.x(), (int)s0.y(), (int)d0.x(), (int)d0.y());
-	//	g.drawString(""+n.getKey(), fp.ix(), fp.iy()-4*r);
+		double we=e.getWeight();
+		String ws=Double.toString(we);
+		String w = ws.substring(0,ws.indexOf(".")+2);
+		g.setFont(new Font("MV Boli",Font.TRUETYPE_FONT,10));
+		int z=10;
+		//g.drawString(w,(int)(((s0.x())+ (s0.x()))/2),(int)((( d0.y())+ (d0.y()))/2)-10);
+//		g.drawString(""+n.getKey(), fp.ix(), fp.iy()-4*r);
 	}
 }

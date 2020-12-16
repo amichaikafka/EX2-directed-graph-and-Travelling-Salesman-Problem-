@@ -12,10 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * This class represents a multi Agents Arena which move on a graph - grabs Pokemons and avoid the Zombies.
@@ -29,7 +26,9 @@ public class Arena {
     private List<CL_Pokemon> _pokemons;
     private List<String> _info;
     private HashMap<Integer, Integer> out_game = new HashMap<Integer, Integer>();
+    private HashMap<Integer, Integer> try_to_eat = new HashMap<Integer, Integer>();
     private HashMap<Integer, edge_data> eci = new HashMap<Integer, edge_data>();
+    private HashMap<Integer, List<CL_Pokemon>> dont_go = new HashMap<Integer, List<CL_Pokemon>>();
     private static Point3D MIN = new Point3D(0, 100, 0);
     private static Point3D MAX = new Point3D(0, 100, 0);
 
@@ -96,15 +95,16 @@ public class Arena {
     public List<CL_Pokemon> getPokemons() {
         return _pokemons;
     }
-public boolean can_he_go(int id,CL_Pokemon p){
 
-        if(eci.get(id)!=null) {
+    public boolean can_he_go(int id, CL_Pokemon p) {
 
-            if(eci.get(id).equals(p.get_edge())){
+        if (eci.get(id) != null) {
+
+            if (eci.get(id).equals(p.get_edge())) {
                 return true;
-            }else{
-                for (edge_data e:eci.values()) {
-                    if(e.equals(p.get_edge())){
+            } else {
+                for (edge_data e : eci.values()) {
+                    if (e.equals(p.get_edge())) {
                         return false;
                     }
 
@@ -112,10 +112,12 @@ public boolean can_he_go(int id,CL_Pokemon p){
             }
         }
         return true;
-}
-public void i_am_going(int id,edge_data e){
-        eci.put(id,e);
-}
+    }
+
+    public void i_am_going(int id, edge_data e) {
+        eci.put(id, e);
+    }
+
     public boolean pokemon_is_out(int id_agent, int dest) {
         if (out_game.get(id_agent) != null) {
             int count = 0;
@@ -144,6 +146,57 @@ public void i_am_going(int id,edge_data e){
         }
 
         return false;
+    }
+
+    public void setCount_try_eat(CL_Pokemon pokemon, CL_Agent agent) {
+
+        edge_data e = pokemon.get_edge();
+        if (pokemon.equals(agent.get_curr_fruit())) {
+            int dest = pokemon.get_edge().getDest();
+
+            if (pokemon.getType() > 0) {
+                dest = pokemon.get_edge().getSrc();
+            }
+            if ( pokemon.get_edge().getSrc() == agent.getSrcNode() || pokemon.get_edge().getDest() == agent.getSrcNode() ){//|| pokemon.get_edge().getSrc() == agent.getNextNode() || pokemon.get_edge().getDest() == agent.getNextNode()) {
+
+                if (try_to_eat.get(agent.getID()) == null) {
+                    try_to_eat.put(agent.getID(), 1);
+                } else {
+                    int c = try_to_eat.get(agent.getID());
+                    c++;
+                    try_to_eat.replace(agent.getID(), c);
+                }
+           } else {
+                try_to_eat.replace(agent.getID(), 0);
+            }
+        } else {
+            try_to_eat.replace(agent.getID(), 0);
+        }
+    }
+
+
+    public void can_i_eat(CL_Agent agent) {
+        System.out.println(try_to_eat.get(agent.getID()));
+        if (try_to_eat.get(agent.getID()) >=3) {
+            if (dont_go.get(agent.getID()) == null) {
+                List<CL_Pokemon> pokemons = new LinkedList<CL_Pokemon>();
+                pokemons.add(agent.get_curr_fruit());
+                dont_go.put(agent.getID(), pokemons);
+            } else {
+                dont_go.get(agent.getID()).add(agent.get_curr_fruit());
+            }
+
+        }
+
+    }
+
+    public boolean try_again(CL_Agent agent, CL_Pokemon pokemon) {
+        if (dont_go.get(agent.getID()) != null) {
+            if (dont_go.get(agent.getID()).contains(pokemon)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void add_to_out(int id, int dest) {
