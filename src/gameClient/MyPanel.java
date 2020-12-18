@@ -27,20 +27,11 @@ public class MyPanel extends JPanel {
         this.ga = ar.getGraph();
         this.arena = ar;
 
-        this.setBackground(new Color(170, 6, 6));
+      //  this.setBackground(new Color(250, 0, 0));
         updateFrame();
 
 
-//        if(a!=null){
-//        for (CL_Agent c : a) {
-//            ag.add(c.getLocation());
-//
-//        }
-//        }
-//        for (node_data n : ga.getV()) {
-//            v.add(n.getLocation());
-//
-//        }
+
     }
 
     private void updateFrame() {
@@ -159,7 +150,12 @@ public class MyPanel extends JPanel {
         super.paintComponent(g);
         int w = this.getWidth();
         int h = this.getHeight();
-        g.clearRect(0, 0, w, h);
+//        Image background = Toolkit.getDefaultToolkit().createImage("./resources/beckground.jpg");
+        Graphics2D g2D = (Graphics2D) g;
+
+        g2D.drawImage(beckground, 0, 0,w, h,null);
+       // g.clearRect(0, 0, w, h);
+       // this.setBackground(new Color(59, 61, 161));
         updateFrame();
         drawPokemons(g);
         drawGraph(g);

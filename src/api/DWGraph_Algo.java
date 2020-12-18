@@ -314,25 +314,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
 
     @Override
     public double shortestPathDist(int src, int dest) {
-       /* if (src == dest)
-            return 0;
-        initgraph();
-        HashMap<Integer, node_data> p = Dijkstra(src);
-        node_data n = this.g.getNode(dest);
-        if (!p.containsKey(dest)) {
-            return -1;
-        }
-        return n.getWeight();*/
-    /*    if (src == dest)
-            return 0;
-        //initgraph();
-        HashMap<Integer, node_algo> p = Dijkstra(src);
-        if (!p.containsKey(dest)) {
-            return -1;
-        }
-        double dist =p.get(dest).getW();
-       initnode(p);
-        return dist;*/
+
         if (src == dest)
             return 0;
         if(this.g.getNode(src)==null||this.g.getNode(dest)==null)
@@ -360,37 +342,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
 
     @Override
     public List<node_data> shortestPath(int src, int dest) {
-       /* initgraph();
-        HashMap<Integer, node_data> p = Dijkstra(src);//hash map with the parent of each node in this search
-        if (!p.containsKey(dest)) {//if the map does not contain dest's key there is no path between theos nodes
-            return null;
-        }
-        node_data t = this.g.getNode(dest);
-        LinkedList<node_data> path = new LinkedList<>();
-        path.add(t);
-        while (t != this.g.getNode(src) && t != null) {
-            t = p.get(t.getKey());
-            path.addFirst(t);//add the nodes to the list in the correct order
-        }
-        if (t == null)
-            return null;
-        return path;*/
-      /*  initgraph();
-        HashMap<Integer, node_algo> p = Dijkstra(src);//hash map with the parent of each node in this search
-        if (!p.containsKey(dest)) {//if the map does not contain dest's key there is no path between theos nodes
-            return null;
-        }
-        node_algo th = p.get(dest);
-        node_data t = th.getNode();
-        LinkedList<node_data> path = new LinkedList<>();
-        path.add(t);
-        while (t != this.g.getNode(src) && t != null) {
-            t = p.get(th.getKey()).getNode();
-            path.addFirst(t);//add the nodes to the list in the correct order
-        }
-        if (t == null)
-            return null;
-        return path;*/
+
         initgraph();
         node_algo s=new node_algo(g.getNode(src));
 

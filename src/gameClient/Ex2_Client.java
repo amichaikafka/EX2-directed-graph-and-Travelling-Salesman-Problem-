@@ -260,7 +260,7 @@ public class Ex2_Client implements Runnable {
         if (fdest != -1) {
             agent.set_curr_fruit(ca);
             _ar.setCount_try_eat(ca, agent);
-            _ar.can_i_eat(agent);
+           // _ar.can_i_eat(agent);
             _ar.i_am_going(agent.getID(), ca.get_edge());
 
             _ar.add_to_out(agent.getID(), fdest);

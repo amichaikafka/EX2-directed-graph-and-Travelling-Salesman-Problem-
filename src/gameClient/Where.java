@@ -100,7 +100,7 @@ private MyFrame _win;
         if (fdest != -1) {
             agent.set_curr_fruit(ca);
             a.setCount_try_eat(ca, agent);
-            a.can_i_eat(agent);
+           // a.can_i_eat(agent);
             a.i_am_going(agent.getID(), ca.get_edge());
 
             a.add_to_out(agent.getID(), fdest);

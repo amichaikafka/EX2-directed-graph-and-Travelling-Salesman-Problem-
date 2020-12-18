@@ -6,19 +6,68 @@ import com.google.gson.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.swing.*;
 import java.util.*;
 
-public class Ex2 implements Runnable{
+public class Ex2 implements Runnable {
     private static MyWindow window;
     private static Arena arna;
-   // private static Where where;
+    private static int level = -1;
+    private static int id = -1;
+    public static myOpen p;
+
     private static int SLEEP = 20;
 
     public static void main(String[] args) {
-      Thread client = new Thread(new Ex2());
-//        game_service game = Game_Server_Ex2.getServer(11);
+        Thread client = new Thread(new Ex2());
+        if(args.length==0) {
+
+            p = new myOpen();
+            while (level == -1 || id == -1) {
+                id = p.getPanel().getId();
+                level = p.getPanel().getLevel();
+                p.repaint();
+            }
+            p.dispose();
+        }else{
+            try {
+            id=Integer.parseInt(args[0]);
+            level=Integer.parseInt(args[1]);
+            } catch (NumberFormatException e) {
+                p = new myOpen();
+                while (level == -1 || id == -1) {
+                    id = p.getPanel().getId();
+                    level = p.getPanel().getLevel();
+                    p.repaint();
+                }
+                p.dispose();
+         }
+
+        }
+        //p.pack();
+
+//        JOptionPane.showMessageDialog(null, "wellcome to the best game the world have never seen", "pokemon", JOptionPane.WIDTH);
+//        //level= Integer.parseInt(JOptionPane.showInputDialog(null,"What level do you want to play?(0-23) ","pokemon",JOptionPane.WIDTH));
+//        while (level < 0 || level > 23) {
+//            try {
+//                level = Integer.parseInt(JOptionPane.showInputDialog(null, "What level do you want to play?(0-23) ", "pokemon", JOptionPane.WIDTH));
+//                if (level < 0 || level > 23) {
+//                    JOptionPane.showMessageDialog(null, "Worng choice, choose level 0-23 ", "pokemon", JOptionPane.WIDTH);
 //
-//        directed_weighted_graph g = loadgraph(game.getGraph());
+//                }
+//            } catch (NumberFormatException e) {
+//                JOptionPane.showMessageDialog(null, "Worng choice, choose level 0-23 ", "pokemon", JOptionPane.WIDTH);
+//            }
+//        }
+//        while (id == -1) {
+//            try {
+//                id = Integer.parseInt(JOptionPane.showInputDialog(null, "Insert your id ", "pokemon", JOptionPane.WIDTH));
+//
+//            } catch (NumberFormatException e) {
+//                JOptionPane.showMessageDialog(null, "Invalid id number ", "pokemon", JOptionPane.WIDTH);
+//            }
+//        }
+
         client.start();
         SimplePlayer player = new SimplePlayer("./resources/dragon_ball_z.mp3");
         Thread playerThread = new Thread(player);
@@ -28,22 +77,19 @@ public class Ex2 implements Runnable{
     }
 
 
-
-
     @Override
     public void run() {
-        int level = 11;
+        //int level = 10;
 
         game_service game = Game_Server_Ex2.getServer(level); // you have [0,23] games
-        //	int id = 999;
-//        	game.login(id);
+      	game.login(id);
         String g = game.getGraph();
         directed_weighted_graph gg = Ex2.loadgraph(g);
         System.out.println(gg);
         init(game);
         game.startGame();
-        window.setTitle("Level:"+level+" "+ game.toString());
-        int ind = 0;
+        window.setTitle("Level:" + level + " " + game.toString());
+        int ind = 10;
         long dt = 100;
 
         while (game.isRunning()) {
@@ -67,14 +113,17 @@ public class Ex2 implements Runnable{
                 e.printStackTrace();
             }
         }
+
         String res = game.toString();
 
         System.out.println(res);
-        System.exit(0);
+        window.dispose();
+        new myEnd(res);
+//        System.exit(0);
     }
 
 
-    public   void moveAgants(game_service game, directed_weighted_graph g) {
+    public void moveAgants(game_service game, directed_weighted_graph g) {
         String lg = game.move();
         List<CL_Agent> log = Arena.getAgents(lg, g);
         this.arna.setAgents(log);
@@ -109,7 +158,8 @@ public class Ex2 implements Runnable{
         }
 
     }
-    private  int nextNode(directed_weighted_graph g, CL_Agent agent, int src, List<CL_Pokemon> c, List<CL_Agent> ag, game_service game) {
+
+    private int nextNode(directed_weighted_graph g, CL_Agent agent, int src, List<CL_Pokemon> c, List<CL_Agent> ag, game_service game) {
         int ans = -1;
         dw_graph_algorithms ga = new DWGraph_Algo();
         ga.init(g);
@@ -154,7 +204,7 @@ public class Ex2 implements Runnable{
         if (fdest != -1) {
             agent.set_curr_fruit(ca);
             arna.setCount_try_eat(ca, agent);
-            arna.can_i_eat(agent);
+//            arna.can_i_eat(agent);
             arna.i_am_going(agent.getID(), ca.get_edge());
 
             arna.add_to_out(agent.getID(), fdest);
@@ -165,8 +215,8 @@ public class Ex2 implements Runnable{
             ans = p.get(1).getKey();
             agent.setNextNode(p.get(1).getKey());
 
-        }else {
-            double min= Double.MAX_VALUE;
+        } else {
+            double min = Double.MAX_VALUE;
 
             Iterator<edge_data> edge = g.getE(agent.getSrcNode()).iterator();
 
@@ -183,6 +233,7 @@ public class Ex2 implements Runnable{
         }
         return ans;
     }
+
     public static directed_weighted_graph loadgraph(String json) {
 
 
@@ -192,11 +243,12 @@ public class Ex2 implements Runnable{
 
         return gson.fromJson(json, DWGraph_DS.class);
     }
+
     private void init(game_service game) {
         String g = game.getGraph();
         String fs = game.getPokemons();
         // directed_weighted_graph gg = game.getJava_Graph_Not_to_be_used();
-        directed_weighted_graph gg=loadgraph(g);
+        directed_weighted_graph gg = loadgraph(g);
         //gg.init(g);
         arna = new Arena();
         arna.setGraph(gg);
@@ -220,7 +272,7 @@ public class Ex2 implements Runnable{
                 Arena.updateEdge(pokemons.get(a), gg);
                 pokemons_val.add(pokemons.get(a));
             }
-            while (!pokemons_val.isEmpty()&&num_agent!=0) {
+            while (!pokemons_val.isEmpty() && num_agent != 0) {
                 CL_Pokemon c = pokemons_val.poll();
                 System.out.println(pokemons_val);
                 int nn = c.get_edge().getDest();

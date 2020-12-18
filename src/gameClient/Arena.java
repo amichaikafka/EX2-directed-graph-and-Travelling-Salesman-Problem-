@@ -175,20 +175,20 @@ public class Arena {
     }
 
 
-    public void can_i_eat(CL_Agent agent) {
-        System.out.println(try_to_eat.get(agent.getID()));
-        if (try_to_eat.get(agent.getID()) >=3) {
-            if (dont_go.get(agent.getID()) == null) {
-                List<CL_Pokemon> pokemons = new LinkedList<CL_Pokemon>();
-                pokemons.add(agent.get_curr_fruit());
-                dont_go.put(agent.getID(), pokemons);
-            } else {
-                dont_go.get(agent.getID()).add(agent.get_curr_fruit());
-            }
-
-        }
-
-    }
+//    public void can_i_eat(CL_Agent agent) {
+//        System.out.println(try_to_eat.get(agent.getID()));
+//        if (try_to_eat.get(agent.getID()) >=3) {
+//            if (dont_go.get(agent.getID()) == null) {
+//                List<CL_Pokemon> pokemons = new LinkedList<CL_Pokemon>();
+//                pokemons.add(agent.get_curr_fruit());
+//                dont_go.put(agent.getID(), pokemons);
+//            } else {
+//                dont_go.get(agent.getID()).add(agent.get_curr_fruit());
+//            }
+//
+//        }
+//
+//    }
 
     public boolean try_again(CL_Agent agent, CL_Pokemon pokemon) {
         if (dont_go.get(agent.getID()) != null) {

@@ -8,11 +8,13 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class MyWindow extends JFrame {
+public class MyWindow extends JFrame implements ActionListener {
     private  MyPanel panel;
     private Arena ar;
     private gameClient.util.Range2Range _w2f;
@@ -20,7 +22,7 @@ public class MyWindow extends JFrame {
         super();
 
         this.ar=arena;
-        this.updateFrame();
+       // this.updateFrame();
         panel=new MyPanel(ar);
         this.add(panel);
         this.setTitle("");
@@ -30,6 +32,9 @@ public class MyWindow extends JFrame {
         ImageIcon icon=new ImageIcon("./resources/Poke_Ball.png");
         this.setIconImage(icon.getImage());
         this.getContentPane().setBackground(Color.cyan);
+       Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 
 
         this.setVisible(true);
@@ -43,15 +48,21 @@ public class MyWindow extends JFrame {
 //        int h = this.getHeight();
 //        g.clearRect(0, 0, w, h);
         //updateFrame();
+        //this.setBackground(new Color(59, 61, 161));
        panel.repaint();
     }
-    private void updateFrame() {
-        Range rx = new Range(20,this.getWidth()-20);
-        Range ry = new Range(this.getHeight()-10,150);
-        Range2D frame = new Range2D(rx,ry);
-        directed_weighted_graph g = ar.getGraph();
-        _w2f = Arena.w2f(g,frame);
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
     }
+//    private void updateFrame() {
+//        Range rx = new Range(20,this.getWidth()-20);
+//        Range ry = new Range(this.getHeight()-10,150);
+//        Range2D frame = new Range2D(rx,ry);
+//        directed_weighted_graph g = ar.getGraph();
+//        _w2f = Arena.w2f(g,frame);
+//    }
 
 //    public void look(){
 //        this.add(panel);

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Ex2.2" options="--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED" />
+      <module name="Ex2" options="--add-exports java.base/sun.net.www.protocol.http=ALL-UNNAMED" />
     </option>
   </component>
 </project>

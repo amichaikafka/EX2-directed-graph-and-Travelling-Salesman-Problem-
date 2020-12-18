@@ -134,7 +134,7 @@ public class MyFrame extends JFrame{
 		double we=e.getWeight();
 		String ws=Double.toString(we);
 		String w = ws.substring(0,ws.indexOf(".")+2);
-		g.setFont(new Font("MV Boli",Font.TRUETYPE_FONT,10));
+		g.setFont(new Font("MV Boli",Font.PLAIN,10));
 		int z=10;
 		//g.drawString(w,(int)(((s0.x())+ (s0.x()))/2),(int)((( d0.y())+ (d0.y()))/2)-10);
 //		g.drawString(""+n.getKey(), fp.ix(), fp.iy()-4*r);
