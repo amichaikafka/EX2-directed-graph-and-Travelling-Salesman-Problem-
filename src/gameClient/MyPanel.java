@@ -10,18 +10,22 @@ import java.awt.*;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
+/**
+ * this class is the panel of the frame in the game
+ */
 public class MyPanel extends JPanel {
     private static final int E = 10;
     private Arena arena;
     private directed_weighted_graph ga;
     private gameClient.util.Range2Range _w2f;
-    private Image Pokemon = new ImageIcon("./resources/dragon.png").getImage();
+    private Image Pokemon = new ImageIcon("./resources/pika3.png").getImage();
     private Image ultra_pokemon = new ImageIcon("./resources/dragon.png").getImage();
-    private Image Agent = new ImageIcon("./resources/pokador.png").getImage();
+    private Image Agent = new ImageIcon("./resources/packman.gif").getImage();
     private Image vertex = new ImageIcon("./resources/vertex.png").getImage();
     private Image beckground = new ImageIcon("./resources/beckground.jpg").getImage();
-
+    /**
+     * constructor
+     */
     public MyPanel(Arena ar) {
         super();
         this.ga = ar.getGraph();
@@ -33,6 +37,10 @@ public class MyPanel extends JPanel {
 
 
     }
+
+    /**
+     * compute the new size of the frame to allow resizeable
+     */
 
     private void updateFrame() {
         Range rx = new Range(20, this.getWidth() - 20);
@@ -48,6 +56,10 @@ public class MyPanel extends JPanel {
         this.repaint();
     }
 
+    /**
+     * this method draw the graph of the game
+     * @param g
+     */
     private void drawGraph(Graphics g) {
 
         Iterator<node_data> i = ga.getV().iterator();
@@ -64,6 +76,12 @@ public class MyPanel extends JPanel {
         }
     }
 
+    /**
+     * draw the vertex of the graph
+     * @param n
+     * @param r
+     * @param g
+     */
     private void drawNode(node_data n, int r, Graphics g) {
         geo_location pos = n.getLocation();
         geo_location location = this._w2f.world2frame(pos);
@@ -75,6 +93,11 @@ public class MyPanel extends JPanel {
         g.drawString("" + n.getKey(), (int) location.x(), (int) location.y() - 2 * r);
     }
 
+    /**
+     * draw the edges of the graph
+     * @param e
+     * @param g
+     */
     private void drawEdge(edge_data e, Graphics g) {
 
         geo_location s = ga.getNode(e.getSrc()).getLocation();
@@ -87,9 +110,14 @@ public class MyPanel extends JPanel {
 
     }
 
+    /**
+     * draw the pokemons of this level at the right spot
+     * @param g
+     */
     private void drawPokemons(Graphics g) {
         List<CL_Pokemon> pokemons = arena.getPokemons();
         Graphics2D g2D = (Graphics2D) g;
+        g.setFont(new Font("MV Boli", Font.TRUETYPE_FONT, 10));
         if (pokemons != null) {
             Iterator<CL_Pokemon> i = pokemons.iterator();
 
@@ -113,11 +141,15 @@ public class MyPanel extends JPanel {
             }
         }
     }
-
+    /**
+     * draw the agent of this level at the right spot
+     * @param g
+     */
     private void drawAgants(Graphics g) {
         List<CL_Agent> agents = arena.getAgents();
         Graphics2D g2D = (Graphics2D) g;
         //	Iterator<OOP_Point3D> itr = rs.iterator();
+        g.setFont(new Font("MV Boli", Font.TRUETYPE_FONT, 10));
         g.setColor(new Color(177, 9, 9));
         int i = 0;
         while (agents != null && i < agents.size()) {
@@ -134,14 +166,17 @@ public class MyPanel extends JPanel {
             i++;
         }
     }
+    /**
+     * display the time to end of this game
+     * @param g
+     */
+    private void drawtime(Graphics g) {
 
-    private void drawInfo(Graphics g) {
-        List<String> str = arena.get_info();
-        String dt = "7777777777777777777777777777777777777777777";
+        String dt = "time to end :";
+        g.setFont(new Font("MV Boli", Font.TRUETYPE_FONT, 20));
+        g.setColor(new Color(177, 9, 9));
+            g.drawString(dt+arena.getTime()+" sec", 100, 60 + 1 * 20);
 
-        for (int i = 0; i < str.size(); i++) {
-            g.drawString(str.get(i) + " dt: " + dt, 100, 60 + i * 20);
-        }
 
     }
 
@@ -160,7 +195,7 @@ public class MyPanel extends JPanel {
         drawPokemons(g);
         drawGraph(g);
         drawAgants(g);
-        drawInfo(g);
+        drawtime(g);
 
     }
 

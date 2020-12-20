@@ -11,13 +11,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+/**
+ * this class is the panel of the frame in the start of the game
+ */
 
 public class openPanel extends JPanel implements ActionListener {
 
     JButton Button = new JButton();
     private int id=-1;
     private int level=-1;
-    private Image beckground = new ImageIcon("./resources/boaz.jpg").getImage();
+    private Image beckground = new ImageIcon("./resources/ultrapica.png").getImage();
+    /**
+     * constructor
+     * create the start button
+     */
 
     public openPanel() {
         super();
@@ -66,7 +73,7 @@ public class openPanel extends JPanel implements ActionListener {
         if (ev.getSource() == Button) {
             while (level < 0 || level > 23) {
                 try {
-                    level = Integer.parseInt(JOptionPane.showInputDialog(null, "What level do you want to play?(0-23) ", "pokemon", JOptionPane.WIDTH));
+                    level = Integer.parseInt(JOptionPane.showInputDialog(null, "What level do you want to play? ", "pokemon", JOptionPane.WIDTH));
                     if (level < 0 || level > 23) {
                         JOptionPane.showMessageDialog(null, "Worng choice, choose level 0-23 ", "pokemon", JOptionPane.WIDTH);
 

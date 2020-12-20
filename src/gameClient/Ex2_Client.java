@@ -27,6 +27,7 @@ public class Ex2_Client implements Runnable {
         int scenario_num = 23;
 
         game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
+
         //	int id = 999;
 //        	game.login(id);
         String g = game.getGraph();
@@ -36,11 +37,12 @@ public class Ex2_Client implements Runnable {
         System.out.println(gg);
         init(game);
 
+
         game.startGame();
+        System.out.println(game.timeToEnd());
         _win.setTitle("Ex2 - OOP: (NONE trivial Solution) " + game.toString());
         int ind = 0;
         long dt = 100;
-        Thread[] arr = new Thread[_ar.getAgents().size()];
         while (game.isRunning()) {
             Runnable nextstep = new Runnable() {
                 @Override
@@ -215,31 +217,31 @@ public class Ex2_Client implements Runnable {
         double mint = Double.MAX_VALUE;
         CL_Pokemon ca = null;
         for (CL_Pokemon pokemon : c) {
-            if (_ar.try_again(agent, pokemon)) {
-                if (_ar.can_he_go(agent.getID(), pokemon)) {
-                    // pokemon.setWilleat(true);
-                    int dest = pokemon.get_edge().getDest();
+            // if (_ar.try_again(agent, pokemon)) {
+            if (_ar.can_he_go(agent.getID(), pokemon)) {
+                // pokemon.setWilleat(true);
+                int dest = pokemon.get_edge().getDest();
 
-                    if (pokemon.getType() > 0) {
-                        dest = pokemon.get_edge().getSrc();
-                        //   dest=Math.max(pokemon.get_edge().getDest(),pokemon.get_edge().getSrc());
-                    }
-                    if (!_ar.pokemon_is_out(agent.getID(), dest)) {
+                if (pokemon.getType() > 0) {
+                    dest = pokemon.get_edge().getSrc();
+                    //   dest=Math.max(pokemon.get_edge().getDest(),pokemon.get_edge().getSrc());
+                }
+                // if (!_ar.pokemon_is_out(agent.getID(), dest)) {
 
-                        double t = ga.shortestPathDist(src, dest) / agent.getSpeed() / pokemon.getValue();
+                double t = ga.shortestPathDist(src, dest) / agent.getSpeed() / pokemon.getValue();
 
-                        if (t >= 0 && t < mint) {
-                            ca = pokemon;
-                            mint = t;
-                            fdest = dest;
-                            if (t == 0) {
-                                fdest = pokemon.get_edge().getSrc();
-                                if (pokemon.getType() > 0) {
-                                    fdest = pokemon.get_edge().getDest();
-                                }
-                            }
+                if (t >= 0 && t < mint) {
+                    ca = pokemon;
+                    mint = t;
+                    fdest = dest;
+                    if (t == 0) {
+                        fdest = pokemon.get_edge().getSrc();
+                        if (pokemon.getType() > 0) {
+                            fdest = pokemon.get_edge().getDest();
                         }
                     }
+                    // }
+                    // }
                 }
             }//else{
 //                count++;
@@ -259,11 +261,11 @@ public class Ex2_Client implements Runnable {
 //        }
         if (fdest != -1) {
             agent.set_curr_fruit(ca);
-            _ar.setCount_try_eat(ca, agent);
-           // _ar.can_i_eat(agent);
+          //  _ar.setCount_try_eat(ca, agent);
+            // _ar.can_i_eat(agent);
             _ar.i_am_going(agent.getID(), ca.get_edge());
 
-            _ar.add_to_out(agent.getID(), fdest);
+           // _ar.add_to_out(agent.getID(), fdest);
 
             List<node_data> p = ga.shortestPath(src, fdest);
 
@@ -291,8 +293,8 @@ public class Ex2_Client implements Runnable {
 //                }
 //            }
             //System.out.println(agent.getNextNode());
-        }else {
-            double min= Double.MAX_VALUE;
+        } else {
+            double min = Double.MAX_VALUE;
 
             Iterator<edge_data> edge = g.getE(agent.getSrcNode()).iterator();
 
@@ -311,6 +313,8 @@ public class Ex2_Client implements Runnable {
     }
 
     private void init(game_service game) {
+        System.out.println(game.timeToEnd());
+
         String g = game.getGraph();
         String fs = game.getPokemons();
 //        directed_weighted_graph gg = game.getJava_Graph_Not_to_be_used();
@@ -332,8 +336,6 @@ public class Ex2_Client implements Runnable {
             line = new JSONObject(info);
             JSONObject ttt = line.getJSONObject("GameServer");
             int rs = ttt.getInt("agents");
-            System.out.println(info);
-            System.out.println(game.getPokemons());
             int src_node = 0;  // arbitrary node, you should start at one of the pokemon
             Comparator<CL_Pokemon> compi = new Comparator<CL_Pokemon>() {
 
@@ -359,10 +361,9 @@ public class Ex2_Client implements Runnable {
 ////                    nn = Math.max(c.get_edge().getDest(),c.get_edge().getSrc());
 //                }
 
-            while (!pokemons_val.isEmpty()&&rs!=0) {
+            while (!pokemons_val.isEmpty() && rs != 0) {
 
                 CL_Pokemon c = pokemons_val.poll();
-                System.out.println(pokemons_val);
                 int nn = c.get_edge().getDest();
 //                int nn = Math.min(c.get_edge().getDest(),c.get_edge().getSrc());
                 if (c.getType() < 0) {

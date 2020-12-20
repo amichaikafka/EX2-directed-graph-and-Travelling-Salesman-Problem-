@@ -13,11 +13,16 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
-public class MyWindow extends JFrame implements ActionListener {
+/**
+ * this class is the frame of the  game
+ */
+public class MyWindow extends JFrame  {
     private  MyPanel panel;
     private Arena ar;
     private gameClient.util.Range2Range _w2f;
+    /**
+     * constructor
+     */
     public MyWindow(Arena arena){
         super();
 
@@ -44,45 +49,7 @@ public class MyWindow extends JFrame implements ActionListener {
 
     @Override
     public void paint(Graphics g) {
-//        int w = this.getWidth();
-//        int h = this.getHeight();
-//        g.clearRect(0, 0, w, h);
-        //updateFrame();
-        //this.setBackground(new Color(59, 61, 161));
        panel.repaint();
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
-//    private void updateFrame() {
-//        Range rx = new Range(20,this.getWidth()-20);
-//        Range ry = new Range(this.getHeight()-10,150);
-//        Range2D frame = new Range2D(rx,ry);
-//        directed_weighted_graph g = ar.getGraph();
-//        _w2f = Arena.w2f(g,frame);
-//    }
-
-//    public void look(){
-//        this.add(panel);
-//        this.setTitle("");
-//        Dimension d=Toolkit.getDefaultToolkit().getScreenSize();
-//        int h=d.height;
-//        int w=d.width;
-//        this.setSize(w,h);
-//        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        panel.update(ar);
-//        this.setVisible(true);
-//        panel.update(ar);
-//        ImageIcon icon=new ImageIcon("./resources/t.jpg");
-//        this.setIconImage(icon.getImage());
-//        this.getContentPane().setBackground(Color.cyan);
-//
-//    }
-//    public static void main(String[]args){
-//        MyWindow w=new MyWindow();
-//        w.look();
-//    }
 
 }

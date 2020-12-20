@@ -2,10 +2,14 @@ package gameClient;
 
 import javax.swing.*;
 import java.awt.*;
-
+/**
+ * this class if the frame of the opening of the game
+ */
 public class myOpen extends JFrame {
     private   openPanel panel;
-
+    /**
+     * constructor
+     */
     public myOpen()  {
         super();
 

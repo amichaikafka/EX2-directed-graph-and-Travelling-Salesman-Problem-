@@ -41,7 +41,7 @@ public interface dw_graph_algorithms {
      * Note: if no such path --> returns -1
      * @param src - start node
      * @param dest - end (target) node
-     * @return
+     * @return length of the shortest path between
      */
     public double shortestPathDist(int src, int dest);
     /**
@@ -51,7 +51,7 @@ public interface dw_graph_algorithms {
      * Note if no such path --> returns null;
      * @param src - start node
      * @param dest - end (target) node
-     * @return
+     * @return shortest path
      */
     public List<node_data> shortestPath(int src, int dest);
 

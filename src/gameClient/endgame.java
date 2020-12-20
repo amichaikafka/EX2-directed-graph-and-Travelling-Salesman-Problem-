@@ -15,6 +15,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
+/**
+ * this class is the panel of the frame in the end of the game
+ */
+
 public class endgame extends JPanel implements ActionListener {
     private int moves;
     private int grade;
@@ -24,6 +28,10 @@ public class endgame extends JPanel implements ActionListener {
 
     private Image beckground = new ImageIcon("./resources/newend.jpg").getImage();
 
+    /**
+     * constructor
+     * @param game
+     */
     public endgame(String game) {
         super();
         JSONObject line;
@@ -71,6 +79,11 @@ public class endgame extends JPanel implements ActionListener {
 
 
     }
+
+    /**
+     * iff the save button pressed save a text file with the score
+     * @param e
+     */
 
     @Override
     public void actionPerformed(ActionEvent e) {

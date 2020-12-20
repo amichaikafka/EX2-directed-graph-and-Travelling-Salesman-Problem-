@@ -4,6 +4,10 @@ import javazoom.jl.player.*;
 import java.io.FileInputStream;
 import java.lang.reflect.Proxy;
 
+/**
+ * the goal of this class is to play the background music of the game
+ */
+
 public class SimplePlayer implements Runnable
 { 
     private String path;

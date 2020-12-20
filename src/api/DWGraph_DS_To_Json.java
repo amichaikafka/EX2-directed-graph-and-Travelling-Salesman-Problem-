@@ -9,7 +9,9 @@ import com.google.gson.*;
 
 import java.lang.reflect.Type;
 import java.util.Map;
-
+/**
+ *the goal of this class is to give the instruction how to read from a json file and to make a graph.
+ */
 public class DWGraph_DS_To_Json implements JsonDeserializer<directed_weighted_graph> {
 
     @Override

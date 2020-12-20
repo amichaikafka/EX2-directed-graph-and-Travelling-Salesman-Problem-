@@ -70,15 +70,7 @@ class DWGraph_AlgoTest {
         ag0.init(g0);
         List<node_data> sp = ag0.shortestPath(0,10);
 
-//        int[] checkKey = {0, 1, 5, 7, 10};
-//        int i = 0;
-//        for(node_data n: sp) {
-//            assertEquals(checkKey[i], n.getKey());
-//            i++;
-//        }
         System.out.println(sp);
-
-
 
     }
 

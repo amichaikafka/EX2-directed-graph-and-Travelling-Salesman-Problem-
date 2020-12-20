@@ -3,9 +3,15 @@ package gameClient;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * this class is the frame of the end of the game
+ */
 public class myEnd extends JFrame {
     private endgame end;
-
+    /**
+     * constructor
+     * @param game
+     */
     public myEnd(String game){
         super();
         end=new endgame(game);

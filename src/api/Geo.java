@@ -1,6 +1,9 @@
 package api;
 
 import java.util.Arrays;
+/**
+ * This class implements geo_location interface represents a geo location <x,y,z>, aka Point3D
+ */
 
 public class Geo implements geo_location {
    private double x,y,z;
@@ -15,8 +18,9 @@ public class Geo implements geo_location {
         this.z= _z;
 
     }
-
-    //copy constructor
+    /**
+     * copy constructor
+     */
     public Geo(geo_location p) {
         this.x = p.x();
         this.y = p.y();
@@ -48,22 +52,37 @@ public class Geo implements geo_location {
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
-
+    /**
+     * return the x value of this point
+     * @return
+     */
     @Override
     public double x() {
         return this.x;
     }
+    /**
+     * return the y value of this point
+     * @return
+     */
 
     @Override
     public double y() {
         return this.y;
     }
+    /**
+     * return the z value of this point
+     * @return
+     */
 
     @Override
     public double z() {
         return this.z;
     }
-
+    /**
+     * return the distance from this point to other point
+     * @param g
+     * @return
+     */
     @Override
     public double distance(geo_location g) {
         double pow_point = Math.pow((this.x - g.x()), 2) + Math.pow((this.y - g.y()), 2) + Math.pow((this.z() - g.z()), 2);

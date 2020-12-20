@@ -7,9 +7,23 @@ import com.google.gson.*;
 import java.io.*;
 import java.util.*;
 import java.util.List;
+/**
+ * This class implements the interface directed_weighted_graph including:
+ * 0. clone(); (copy)
+ * 1. init(graph);
+ * 2. isConnected(); // strongly (all ordered pais connected) using BFS algorithm
+ * 3. double shortestPathDist(int src, int dest);using Dijkstra algorithm;
+ * 4. List<node_data> shortestPath(int src, int dest);using Dijkstra algorithm;
+ * 5. Save(file); // JSON file
+ * 6. Load(file); // JSON file
+ *
+ */
 
 public class DWGraph_Algo implements dw_graph_algorithms {
-
+    /**
+     * inner class assigned to the implementation of Dijkstra algorithm
+     * each node_algo connect to a specific node in the graph
+     */
     private class node_algo {
         private node_data node;
         private int key;
@@ -138,9 +152,8 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         }
     }
     /**
-     * Returns true if and only if (iff) there is a valid path from EVREY node to each
-     * other node.  directional graph.
-     * @return
+     * @return true if and only if (iff) there is a valid path from EVREY node to each
+     *  other node.  directed graph. using BFS algorithm
      */
 
     @Override
@@ -167,79 +180,26 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         }
         return true;
     }
+
+
+//    private void initnode(HashMap<Integer,node_algo> p){
+//        Iterator<node_algo> i=p.values().iterator();
+//        while(i.hasNext()){
+//            node_algo t=i.next();
+//            t.setW(Double.MAX_VALUE);
+//            t.setVisit(false);
+//        }
+//    }
     /**
      * this function implements the Dijkstra algorithm on the graph
-     * marking any node that has been visited and setting the Tag to the distance from the key node (source node)
-     * for each node, in this search.
-     * @param key
+     * using the inner class node_algo, every node_algo connect to a spcific node in the graph
+     * marking any node that has been visited and setting the Tag to the distance from the src node (source node)
+     * for each node, in this search, until destination node .
+     * @param src
+     * @param dest
      * @return HashMap<Integer, node_info> that contain every parent of each node (consider minimum distance )
      *  in this search starting at key (id) node.
      */
-    private HashMap<Integer, node_algo> Dijkstra(int key) {
-        HashMap<Integer, node_data> p = new HashMap<Integer, node_data>();
-        HashMap<Integer, node_algo> ph = new HashMap<Integer, node_algo>();
-        comp compare = new comp();//comperator to determine the order in the priorityqueue.
-        PriorityQueue<node_algo> pq = new PriorityQueue(compare);
-        node_data n = this.g.getNode(key);
-        node_algo nh=new node_algo(n);
-       // n.setWeight(0);
-       // pq.add(n);
-        nh.setW(0);
-        pq.add(nh);
-        while (!(pq.isEmpty())) {
-           // n = pq.poll();
-            nh = pq.poll();
-            /*if(pq.peek()!=null&&pq.peek().getTag()<n.getTag()){//double check to avoid mistake in the order
-                pq.add(n);
-                n=pq.poll();
-            }*/
-            if(pq.peek()!=null&&pq.peek().getW()< nh.getW()){//double check to avoid mistake in the order
-                pq.add(nh);
-                nh=pq.poll();
-            }
-           // n.setInfo("v");//mark as visited when node has pollen from the queue
-            nh.getNode().setTag(1);
-            Iterator<edge_data>  e = this.g.getE(nh.getKey()).iterator();
-            while (e.hasNext()) {
-                edge_data de = e.next();
-                node_data t=this.g.getNode(de.getDest());
-                node_algo th=new node_algo(t);
-                /*if (!t.getInfo().equals("v")) {//do the next operation if not visited
-                    double w = this.g.getEdge(n.getKey(), t.getKey()).getWeight() + n.getWeight();
-                    if (w < t.getTag()) {//chek if it's the minimum distance from source's node.
-                        t.setWeight(w);//if so set the new distance
-                        if (p.containsKey(t.getKey())) {//check it its not the first time we get to this node
-                            p.replace(t.getKey(), n);//if so just replace his parent, to make sure that's the correct parent in shortest path
-                        } else {
-                            p.put(t.getKey(), n);//if not enter new key and parent to the map
-                            pq.add(t);// add the new node (at the search ) to the queue
-                        }
-                    }
-                }*/
-                if (th.getNode().getTag()==0) {//do the next operation if not visited
-                    double w = de.getWeight()+ nh.getW();
-                    if (w < th.getW()) {//chek if it's the minimum distance from source's node.
-                        th.setW(w);//if so set the new distance
-                        if (ph.containsKey(th.getKey())) {//check it its not the first time we get to this node
-                            ph.replace(th.getKey(), nh);//if so just replace his parent, to make sure that's the correct parent in shortest path
-                        } else {
-                            ph.put(th.getKey(), nh);//if not enter new key and parent to the map
-                            pq.add(th);// add the new node (at the search ) to the queue
-                        }
-                    }
-                }
-            }
-        }
-        return ph;
-    }
-    private void initnode(HashMap<Integer,node_algo> p){
-        Iterator<node_algo> i=p.values().iterator();
-        while(i.hasNext()){
-            node_algo t=i.next();
-            t.setW(Double.MAX_VALUE);
-            t.setVisit(false);
-        }
-    }
     private HashMap<Integer, node_algo> Dijkstra(node_algo src ,node_algo dest) {
         HashMap<Integer, node_algo> ph = new HashMap<Integer, node_algo>();
         HashMap<Integer, node_algo> pa = new HashMap<Integer, node_algo>();
@@ -305,7 +265,8 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         return null;
     }
     /**
-     * returns the length of the shortest path between src to dest
+     * returns the length of the shortest path between src to dest using Dijkstra algorithm
+     *
      * if no such path --> returns -1
      * @param src - start node
      * @param dest - end (target) node
@@ -332,12 +293,12 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     }
 
     /**
-     * returns the the shortest path between src to dest - as an ordered List of nodes:
-     * src--> n1-->n2-->...dest
-     * if no such path --> returns null;
+     * returns the the shortest path between src to dest using Dijkstra algorithm- as an ordered List of nodes:
+     * src-- n1--n2--...dest
+     * if no such path -- returns null;
      * @param src - start node
      * @param dest - end (target) node
-     * @return List<node_info><
+     * @return List<node_data>
      */
 
     @Override
@@ -367,7 +328,12 @@ public class DWGraph_Algo implements dw_graph_algorithms {
             return null;
         return path;
     }
-
+    /**
+     * Saves this weighted (directed) graph to the given
+     * file name - in JSON format
+     * @param file - the file name (may include a relative path).
+     * @return true - iff the file was successfully saved
+     */
     @Override
     public boolean save(String file) {
         Gson gson=new GsonBuilder().create();
@@ -382,7 +348,14 @@ public class DWGraph_Algo implements dw_graph_algorithms {
             return false;
         }
     }
-
+    /**
+     * This method load a graph to this graph algorithm.
+     * if the file was successfully loaded - the underlying graph
+     * of this class will be changed (to the loaded one), in case the
+     * graph was not loaded the original graph should remain "as is".
+     * @param file - file name of JSON file
+     * @return true - iff the graph was successfully loaded.
+     */
     @Override
     public boolean load(String file) {
         try {

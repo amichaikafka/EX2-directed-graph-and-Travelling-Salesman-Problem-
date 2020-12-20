@@ -25,15 +25,13 @@ public class Arena {
     private List<CL_Agent> _agents;
     private List<CL_Pokemon> _pokemons;
     private List<String> _info;
-    private HashMap<Integer, Integer> out_game = new HashMap<Integer, Integer>();
-    private HashMap<Integer, Integer> try_to_eat = new HashMap<Integer, Integer>();
-    private HashMap<Integer, edge_data> eci = new HashMap<Integer, edge_data>();
-    private HashMap<Integer, List<CL_Pokemon>> dont_go = new HashMap<Integer, List<CL_Pokemon>>();
+    private HashMap<Integer, edge_data> eci = new HashMap<Integer, edge_data>();//hash map of all the agent and where they go
     private static Point3D MIN = new Point3D(0, 100, 0);
     private static Point3D MAX = new Point3D(0, 100, 0);
+    private  long time;
 
     public Arena() {
-        ;
+
         _info = new ArrayList<String>();
     }
 
@@ -41,6 +39,22 @@ public class Arena {
         _gg = g;
         this.setAgents(r);
         this.setPokemons(p);
+    }
+    /**
+     * return the number of seconds till the game is over
+     *
+     * @return
+     */
+    public long getTime() {
+        return (time/1000);
+    }
+
+    /**
+     * update the time till the game is over
+     * @param time
+     */
+    public void updateTime(long time) {
+        this.time = time;
     }
 
     public void setPokemons(List<CL_Pokemon> f) {
@@ -96,6 +110,13 @@ public class Arena {
         return _pokemons;
     }
 
+    /**
+     * return true if  no one except of id-agent go to the edge that the pokemon found on it
+     * @param id- the id of the agent
+     * @param p
+     * @return
+     */
+
     public boolean can_he_go(int id, CL_Pokemon p) {
 
         if (eci.get(id) != null) {
@@ -114,96 +135,15 @@ public class Arena {
         return true;
     }
 
+    /**
+     * mark this edge that the id-agent go to
+     * @param id
+     * @param e
+     */
     public void i_am_going(int id, edge_data e) {
         eci.put(id, e);
     }
 
-    public boolean pokemon_is_out(int id_agent, int dest) {
-        if (out_game.get(id_agent) != null) {
-            int count = 0;
-            if (out_game.get(id_agent) == dest) {
-                for (Integer d : out_game.values()) {
-                    if (d == dest) {
-                        count++;
-                    }
-                }
-                if (count > 1) {
-                    return true;
-                }
-                return false;
-            } else {
-                for (Integer d : out_game.values()) {
-                    if (d == dest) {
-                        count++;
-                    }
-                }
-                if (count > 0) {
-                    return true;
-                }
-                return false;
-
-            }
-        }
-
-        return false;
-    }
-
-    public void setCount_try_eat(CL_Pokemon pokemon, CL_Agent agent) {
-
-        edge_data e = pokemon.get_edge();
-        if (pokemon.equals(agent.get_curr_fruit())) {
-            int dest = pokemon.get_edge().getDest();
-
-            if (pokemon.getType() > 0) {
-                dest = pokemon.get_edge().getSrc();
-            }
-            if ( pokemon.get_edge().getSrc() == agent.getSrcNode() || pokemon.get_edge().getDest() == agent.getSrcNode() ){//|| pokemon.get_edge().getSrc() == agent.getNextNode() || pokemon.get_edge().getDest() == agent.getNextNode()) {
-
-                if (try_to_eat.get(agent.getID()) == null) {
-                    try_to_eat.put(agent.getID(), 1);
-                } else {
-                    int c = try_to_eat.get(agent.getID());
-                    c++;
-                    try_to_eat.replace(agent.getID(), c);
-                }
-           } else {
-                try_to_eat.replace(agent.getID(), 0);
-            }
-        } else {
-            try_to_eat.replace(agent.getID(), 0);
-        }
-    }
-
-
-//    public void can_i_eat(CL_Agent agent) {
-//        System.out.println(try_to_eat.get(agent.getID()));
-//        if (try_to_eat.get(agent.getID()) >=3) {
-//            if (dont_go.get(agent.getID()) == null) {
-//                List<CL_Pokemon> pokemons = new LinkedList<CL_Pokemon>();
-//                pokemons.add(agent.get_curr_fruit());
-//                dont_go.put(agent.getID(), pokemons);
-//            } else {
-//                dont_go.get(agent.getID()).add(agent.get_curr_fruit());
-//            }
-//
-//        }
-//
-//    }
-
-    public boolean try_again(CL_Agent agent, CL_Pokemon pokemon) {
-        if (dont_go.get(agent.getID()) != null) {
-            if (dont_go.get(agent.getID()).contains(pokemon)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public void add_to_out(int id, int dest) {
-
-        out_game.put(id, dest);
-
-    }
 
     public directed_weighted_graph getGraph() {
         return _gg;

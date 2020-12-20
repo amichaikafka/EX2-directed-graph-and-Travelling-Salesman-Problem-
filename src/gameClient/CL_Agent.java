@@ -125,30 +125,7 @@ public class CL_Agent {
 			}
 			return ans;
 		}
-		public boolean can_i_eat(){
-			System.out.println(count_try_eat);
-			if(count_try_eat>=2){
-				System.out.println(count_try_eat);
-				return false;
-			}
-			return true;
-		}
 
-	public void setCount_try_eat(CL_Pokemon pokemon) {
-			System.out.println(pokemon.equals(this._curr_fruit));
-			edge_data e=pokemon.get_edge();
-		if(pokemon.equals(this._curr_fruit)){
-			if(this.getNextNode()==-1){//||pokemon.get_edge().getSrc()==this.getSrcNode()||pokemon.get_edge().getDest()==this.getSrcNode()||pokemon.get_edge().getSrc()==this.getNextNode()||pokemon.get_edge().getDest()==this.getNextNode()){
-				System.out.println(e);
-				System.out.println("srca "+this.getSrcNode()+"dest "+this.getNextNode());
-				this.count_try_eat++;
-			}else{
-				this.count_try_eat=0;
-			}
-		}else{
-			this.count_try_eat=0;
-		}
-	}
 
 	public double getSpeed() {
 			return this._speed;

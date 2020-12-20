@@ -8,11 +8,14 @@ import org.json.JSONObject;
 
 import javax.swing.*;
 import java.util.*;
-
+/**
+ * This class represents the  "Client-Game" main class
+ * which uses the "server for moving the "Agents".
+ */
 public class Ex2 implements Runnable {
     private static MyWindow window;
     private static Arena arna;
-    private static int level = -1;
+    private static int level = -312486699;
     private static int id = -1;
     public static myOpen p;
 
@@ -20,53 +23,30 @@ public class Ex2 implements Runnable {
 
     public static void main(String[] args) {
         Thread client = new Thread(new Ex2());
-        if(args.length==0) {
+        if (args.length == 0) {
 
             p = new myOpen();
-            while (level == -1 || id == -1) {
+            while (level == -312486699 || id == -1) {
                 id = p.getPanel().getId();
                 level = p.getPanel().getLevel();
                 p.repaint();
             }
             p.dispose();
-        }else{
+        } else {
             try {
-            id=Integer.parseInt(args[0]);
-            level=Integer.parseInt(args[1]);
+                id = Integer.parseInt(args[0]);
+                level = Integer.parseInt(args[1]);
             } catch (NumberFormatException e) {
                 p = new myOpen();
-                while (level == -1 || id == -1) {
+                while (level == -312486699 || id == -1) {
                     id = p.getPanel().getId();
                     level = p.getPanel().getLevel();
                     p.repaint();
                 }
                 p.dispose();
-         }
+            }
 
         }
-        //p.pack();
-
-//        JOptionPane.showMessageDialog(null, "wellcome to the best game the world have never seen", "pokemon", JOptionPane.WIDTH);
-//        //level= Integer.parseInt(JOptionPane.showInputDialog(null,"What level do you want to play?(0-23) ","pokemon",JOptionPane.WIDTH));
-//        while (level < 0 || level > 23) {
-//            try {
-//                level = Integer.parseInt(JOptionPane.showInputDialog(null, "What level do you want to play?(0-23) ", "pokemon", JOptionPane.WIDTH));
-//                if (level < 0 || level > 23) {
-//                    JOptionPane.showMessageDialog(null, "Worng choice, choose level 0-23 ", "pokemon", JOptionPane.WIDTH);
-//
-//                }
-//            } catch (NumberFormatException e) {
-//                JOptionPane.showMessageDialog(null, "Worng choice, choose level 0-23 ", "pokemon", JOptionPane.WIDTH);
-//            }
-//        }
-//        while (id == -1) {
-//            try {
-//                id = Integer.parseInt(JOptionPane.showInputDialog(null, "Insert your id ", "pokemon", JOptionPane.WIDTH));
-//
-//            } catch (NumberFormatException e) {
-//                JOptionPane.showMessageDialog(null, "Invalid id number ", "pokemon", JOptionPane.WIDTH);
-//            }
-//        }
 
         client.start();
         SimplePlayer player = new SimplePlayer("./resources/dragon_ball_z.mp3");
@@ -81,8 +61,9 @@ public class Ex2 implements Runnable {
     public void run() {
         //int level = 10;
 
+
         game_service game = Game_Server_Ex2.getServer(level); // you have [0,23] games
-      	game.login(id);
+        game.login(id);
         String g = game.getGraph();
         directed_weighted_graph gg = Ex2.loadgraph(g);
         System.out.println(gg);
@@ -93,6 +74,7 @@ public class Ex2 implements Runnable {
         long dt = 100;
 
         while (game.isRunning()) {
+            arna.updateTime(game.timeToEnd());
             Runnable nextstep = new Runnable() {
                 @Override
                 public void run() {
@@ -122,12 +104,17 @@ public class Ex2 implements Runnable {
 //        System.exit(0);
     }
 
+    /**
+     * this method decide the next move of all the agent
+     * @param game
+     * @param g
+     */
 
     public void moveAgants(game_service game, directed_weighted_graph g) {
         String lg = game.move();
         List<CL_Agent> log = Arena.getAgents(lg, g);
         this.arna.setAgents(log);
-        //ArrayList<OOP_Point3D> rs = new ArrayList<OOP_Point3D>();
+
         String fs = game.getPokemons();
         List<CL_Pokemon> ffs = Arena.json2Pokemons(fs);
         //System.out.println(ffs.get(1).get_edge());
@@ -159,6 +146,16 @@ public class Ex2 implements Runnable {
 
     }
 
+    /**
+     * this method compute the best next move for the agent
+     * @param g
+     * @param agent
+     * @param src
+     * @param c
+     * @param ag
+     * @param game
+     * @return next node to move
+     */
     private int nextNode(directed_weighted_graph g, CL_Agent agent, int src, List<CL_Pokemon> c, List<CL_Agent> ag, game_service game) {
         int ans = -1;
         dw_graph_algorithms ga = new DWGraph_Algo();
@@ -167,47 +164,46 @@ public class Ex2 implements Runnable {
             Arena.updateEdge(c.get(a), g);
 //					System.out.println(cl_fs.get(a).get_edge().getDest());
         }
-        int count = 0;
+
         int fdest = -1;
         double mint = Double.MAX_VALUE;
         CL_Pokemon ca = null;
         for (CL_Pokemon pokemon : c) {
-            if (arna.try_again(agent, pokemon)) {
-                if (arna.can_he_go(agent.getID(), pokemon)) {
-                    // pokemon.setWilleat(true);
-                    int dest = pokemon.get_edge().getDest();
+            // if (arna.try_again(agent, pokemon)) {
+            if (arna.can_he_go(agent.getID(), pokemon)) {
+                int dest = pokemon.get_edge().getDest();
 
-                    if (pokemon.getType() > 0) {
-                        dest = pokemon.get_edge().getSrc();
-                        //   dest=Math.max(pokemon.get_edge().getDest(),pokemon.get_edge().getSrc());
-                    }
-                    if (!arna.pokemon_is_out(agent.getID(), dest)) {
+                if (pokemon.getType() > 0) {
+                    dest = pokemon.get_edge().getSrc();
+                    //   dest=Math.max(pokemon.get_edge().getDest(),pokemon.get_edge().getSrc());
+                }
+                // if (!arna.pokemon_is_out(agent.getID(), dest)) {
 
-                        double t = ga.shortestPathDist(src, dest) / agent.getSpeed() / pokemon.getValue();
+                double t = ga.shortestPathDist(src, dest) / agent.getSpeed() / pokemon.getValue();
 
-                        if (t >= 0 && t < mint) {
-                            ca = pokemon;
-                            mint = t;
-                            fdest = dest;
-                            if (t == 0) {
-                                fdest = pokemon.get_edge().getSrc();
-                                if (pokemon.getType() > 0) {
-                                    fdest = pokemon.get_edge().getDest();
-                                }
-                            }
+                if (t >= 0 && t < mint) {
+                    ca = pokemon;
+                    mint = t;
+                    fdest = dest;
+                    if (t == 0) {
+                        fdest = pokemon.get_edge().getSrc();
+                        if (pokemon.getType() > 0) {
+                            fdest = pokemon.get_edge().getDest();
                         }
                     }
                 }
+                // }
+                // }
             }
         }
 
         if (fdest != -1) {
             agent.set_curr_fruit(ca);
-            arna.setCount_try_eat(ca, agent);
+           // arna.setCount_try_eat(ca, agent);
 //            arna.can_i_eat(agent);
             arna.i_am_going(agent.getID(), ca.get_edge());
 
-            arna.add_to_out(agent.getID(), fdest);
+           // arna.add_to_out(agent.getID(), fdest);
 
             List<node_data> p = ga.shortestPath(src, fdest);
 
@@ -234,6 +230,11 @@ public class Ex2 implements Runnable {
         return ans;
     }
 
+    /**
+     * this method load the graph of the game from the server
+     * @param json
+     * @return the game's graphg
+     */
     public static directed_weighted_graph loadgraph(String json) {
 
 
@@ -244,6 +245,10 @@ public class Ex2 implements Runnable {
         return gson.fromJson(json, DWGraph_DS.class);
     }
 
+    /**
+     * init the arena of the game
+     * @param game
+     */
     private void init(game_service game) {
         String g = game.getGraph();
         String fs = game.getPokemons();

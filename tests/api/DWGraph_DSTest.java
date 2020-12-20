@@ -34,10 +34,12 @@ class DWGraph_DSTest {
 
         assertEquals(16,g.edgeSize());
         g.removeNode(10);
+
         assertEquals(10,g.nodeSize());
         assertEquals(12,g.edgeSize());
         g.removeNode(10);
         assertEquals(10,g.nodeSize());
+        g.removeNode(100);
     }
 
     @org.junit.jupiter.api.Test
