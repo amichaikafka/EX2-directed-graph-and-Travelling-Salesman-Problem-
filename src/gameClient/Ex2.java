@@ -169,25 +169,17 @@ public class Ex2 implements Runnable {
         ga.init(g);
         for (int a = 0; a < c.size(); a++) {
             Arena.updateEdge(c.get(a), g);
-//					System.out.println(cl_fs.get(a).get_edge().getDest());
         }
-
         int fdest = -1;
         double mint = Double.MAX_VALUE;
         CL_Pokemon ca = null;
         for (CL_Pokemon pokemon : c) {
-            // if (arna.try_again(agent, pokemon)) {
             if (arna.can_he_go(agent.getID(), pokemon)) {
                 int dest = pokemon.get_edge().getDest();
-
                 if (pokemon.getType() > 0) {
                     dest = pokemon.get_edge().getSrc();
-
                 }
-
-
                 double t = ga.shortestPathDist(src, dest) / agent.getSpeed() / pokemon.getValue();
-
                 if (t >= 0 && t < mint) {
                     ca = pokemon;
                     mint = t;
@@ -199,31 +191,21 @@ public class Ex2 implements Runnable {
                         }
                     }
                 }
-                // }
-                // }
+
             }
         }
 
         if (fdest != -1) {
             agent.set_curr_fruit(ca);
-
             arna.i_am_going(agent.getID(), ca.get_edge());
-
-
             List<node_data> p = ga.shortestPath(src, fdest);
-
-
             ans = p.get(1).getKey();
             agent.setNextNode(p.get(1).getKey());
-
         } else {
             double min = Double.MAX_VALUE;
-
             Iterator<edge_data> edge = g.getE(agent.getSrcNode()).iterator();
-
             while (edge.hasNext()) {
                 edge_data t = edge.next();
-
                 if (min > g.getNode(agent.getSrcNode()).getLocation().distance(g.getNode(t.getDest()).getLocation())) {
                     min = g.getNode(agent.getSrcNode()).getLocation().distance(g.getNode(t.getDest()).getLocation());
                     ans = t.getDest();
@@ -252,7 +234,7 @@ public class Ex2 implements Runnable {
     }
 
     /**
-     * init the arena of the game
+     * init the arena of the game and plce the agent at the right spot
      *
      * @param game
      */
@@ -285,11 +267,11 @@ public class Ex2 implements Runnable {
             while (!pokemons_val.isEmpty() && num_agent != 0) {
                 CL_Pokemon c = pokemons_val.poll();
                 System.out.println(pokemons_val);
-                int nn = c.get_edge().getDest();
+                int dest = c.get_edge().getDest();
                 if (c.getType() < 0) {
-                    nn = c.get_edge().getSrc();
+                    dest = c.get_edge().getSrc();
                 }
-                game.addAgent(nn);
+                game.addAgent(dest);
                 num_agent--;
             }
             arna.setAgents(Arena.getAgents(game.getAgents(), gg));
