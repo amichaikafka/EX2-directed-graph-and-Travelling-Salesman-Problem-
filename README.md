@@ -93,27 +93,27 @@ there is a graph on the graph there are pokemons which you have  to catch. How d
 # classes
 * __Ex2__\
 This class represents the  "Client-Game" main class
-which uses the "server for moving the "Agents".\
+which uses the "server for moving the "Agents".
 * __Arena__\
-This class represents a multi Agents Arena which move on a graph - grabs Pokemons \
+This class represents a multi Agents Arena which move on a graph - grabs Pokemons 
 * __CL_Agent__\
-This class represents an agent\
+This class represents an agent
 * __CL_Pokemon__\
-This class represents a pokemon\
+This class represents a pokemon
 * __MyWindow__\
-This class is the frame of the  game (GUI)\
+This class is the frame of the  game (GUI)
 * __MyPanel__\
-This class is the panel of the frame in the game(GUI)\
+This class is the panel of the frame in the game(GUI)
 * __myOpen__\
-This class if the frame of the opening of the game(GUI)\
+This class if the frame of the opening of the game(GUI)
 * __openPanel__\
-This class is the panel of the frame in the start of the game(GUI)\
+This class is the panel of the frame in the start of the game(GUI)
 * __myEnd__\
-This class is the frame of the end of the game(GUI)\
+This class is the frame of the end of the game(GUI)
 * __endgame__\
-This class is the panel of the frame in the end of the game (GUI)\
+This class is the panel of the frame in the end of the game (GUI)
 * __SimplePlayer__\
-The goal of this class is to play the background music of the game.\
+The goal of this class is to play the background music of the game.
 
 ## Interfaces
 * __game_service__
