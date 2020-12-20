@@ -18,8 +18,8 @@ import java.awt.event.ActionListener;
 public class openPanel extends JPanel implements ActionListener {
 
     JButton Button = new JButton();
-    private int id=-1;
-    private int level=-1;
+    private int id=-235;
+    private int level=-312486699;
     private Image beckground = new ImageIcon("./resources/ultrapica.png").getImage();
     /**
      * constructor
@@ -71,18 +71,18 @@ public class openPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ev) {
         if (ev.getSource() == Button) {
-            while (level < 0 || level > 23) {
+            while (level ==-312486699) {
                 try {
                     level = Integer.parseInt(JOptionPane.showInputDialog(null, "What level do you want to play? ", "pokemon", JOptionPane.WIDTH));
-                    if (level < 0 || level > 23) {
-                        JOptionPane.showMessageDialog(null, "Worng choice, choose level 0-23 ", "pokemon", JOptionPane.WIDTH);
+                    if (level==-312486699) {
+                        JOptionPane.showMessageDialog(null, "Invalid level number ", "pokemon", JOptionPane.WIDTH);
 
                     }
                 } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Worng choice, choose level 0-23 ", "pokemon", JOptionPane.WIDTH);
+                    JOptionPane.showMessageDialog(null, "Invalid level number", "pokemon", JOptionPane.WIDTH);
                 }
             }
-            while (id == -1) {
+            while (id ==-235) {
                 try {
                     id = Integer.parseInt(JOptionPane.showInputDialog(null, "Insert your id ", "pokemon", JOptionPane.WIDTH));
 

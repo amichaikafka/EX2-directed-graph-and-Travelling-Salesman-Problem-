@@ -6,9 +6,15 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+/**
+ * the goal of this test class is to check the reliability of DWGraph_Algo.
+ * part of the testes taken from or based on the testes from the course's github.(including creating graph)
+ */
 
 class DWGraph_AlgoTest {
-
+    /**
+     * check the init function
+     */
     @Test
     void init() {
         directed_weighted_graph g0 =DWGraph_DSTest.graph_creator(10,30,1);
@@ -16,7 +22,9 @@ class DWGraph_AlgoTest {
         ag0.init(g0);
         assertEquals(g0,ag0.getGraph());
     }
-
+    /**
+     * check the getgraph function
+     */
     @Test
     void getGraph() {
         directed_weighted_graph g0 =DWGraph_DSTest.graph_creator(10,30,1);
@@ -24,6 +32,9 @@ class DWGraph_AlgoTest {
         ag0.init(g0);
         assertEquals(g0,ag0.getGraph());
     }
+    /**
+     * check the copy function
+     */
 
     @Test
     void copy() {
@@ -35,7 +46,9 @@ class DWGraph_AlgoTest {
         g1.removeNode(0);
         assertNotEquals(g0,g1);
     }
-
+    /**
+     * this test check if the graph connected or not when we remove or add node/edge
+     */
     @Test
     void isConnected() {
         directed_weighted_graph g0 =small_graph();
@@ -47,7 +60,9 @@ class DWGraph_AlgoTest {
         g0.removeNode(0);
         assertFalse(ag0.isConnected());
     }
-
+    /**
+     * check the shortestPathDist function
+     */
     @Test
     void shortestPathDist() {
         directed_weighted_graph g0 =small_graph();
@@ -61,7 +76,9 @@ class DWGraph_AlgoTest {
         d=ag0.shortestPathDist(2,0);
         assertEquals(-1,d);
     }
-
+    /**
+     * check the shortestPath function
+     */
     @Test
     void shortestPath() {
 
@@ -73,7 +90,9 @@ class DWGraph_AlgoTest {
         System.out.println(sp);
 
     }
-
+    /**
+     * check save and load of the program
+     */
     @Test
     void save() {
         directed_weighted_graph g0 =DWGraph_DSTest.graph_creator(10,30,1);
@@ -110,6 +129,9 @@ class DWGraph_AlgoTest {
         assertEquals(ga,g0);
 
     }
+    /**
+     * create a small graph
+     */
     public static directed_weighted_graph small_graph() {
         directed_weighted_graph g0 = DWGraph_DSTest.graph_creator(11);
         g0.connect(0,1,1);
@@ -133,6 +155,10 @@ class DWGraph_AlgoTest {
 
         return g0;
     }
+    /**
+     * make the graph connected -connect one node to all the other and the other to the one node.
+     * only for tests
+     */
     private void makeconnected(directed_weighted_graph g){
         Iterator<node_data> i=g.getV().iterator();
         node_data n=i.next();

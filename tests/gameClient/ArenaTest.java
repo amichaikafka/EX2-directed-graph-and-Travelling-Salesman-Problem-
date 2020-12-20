@@ -26,13 +26,6 @@ private directed_weighted_graph g=Ex2.loadgraph(game.getGraph());
     }
 
     @Test
-    void can_he_go() {
-    }
-
-    @Test
-    void i_am_going() {
-    }
-    @Test
     void getGraph() {
         arena.setGraph(g);
         assertEquals(g,arena.getGraph());
@@ -43,10 +36,6 @@ private directed_weighted_graph g=Ex2.loadgraph(game.getGraph());
     void json2Pokemons() {
         arena.setPokemons(Arena.json2Pokemons(game.getPokemons()));
         assertEquals(Arena.json2Pokemons(game.getPokemons()),arena.getPokemons());
-    }
-
-    @Test
-    void updateEdge() {
     }
 
 

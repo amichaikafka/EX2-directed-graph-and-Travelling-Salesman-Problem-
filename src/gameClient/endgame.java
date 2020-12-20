@@ -96,6 +96,7 @@ public class endgame extends JPanel implements ActionListener {
                 FileWriter myWriter = new FileWriter(savefile);
                 myWriter.write(save + ": level: " + level + " grade: " + grade + " moves: " + moves);
                 myWriter.close();
+                System.exit(0);
 
             } catch (IOException ioException) {
                 ioException.printStackTrace();

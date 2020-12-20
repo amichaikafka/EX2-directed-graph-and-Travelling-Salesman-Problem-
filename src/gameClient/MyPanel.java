@@ -20,7 +20,7 @@ public class MyPanel extends JPanel {
     private gameClient.util.Range2Range _w2f;
     private Image Pokemon = new ImageIcon("./resources/pika3.png").getImage();
     private Image ultra_pokemon = new ImageIcon("./resources/dragon.png").getImage();
-    private Image Agent = new ImageIcon("./resources/packman.gif").getImage();
+    private Image Agent = new ImageIcon("./resources/pokador.png").getImage();
     private Image vertex = new ImageIcon("./resources/vertex.png").getImage();
     private Image beckground = new ImageIcon("./resources/beckground.jpg").getImage();
     /**

@@ -13,7 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class DWGraph_DSTest {
     private directed_weighted_graph g=DWGraph_AlgoTest.small_graph();
     private static Random _rnd = null;
-
+    /**
+     * check the getV function
+     */
 
     @org.junit.jupiter.api.Test
     void getV() {
@@ -21,14 +23,18 @@ class DWGraph_DSTest {
         assertTrue(i.next() instanceof node_data);
 
     }
-
+    /**
+     * check the getE function
+     */
     @org.junit.jupiter.api.Test
     void getE() {
         Iterator<edge_data> i=g.getE(0).iterator();
         assertTrue(i.next() instanceof edge_data);
 
     }
-
+    /**
+     * check the removeNode function-removing node from the graph then check how many node are there in the graph
+     */
     @org.junit.jupiter.api.Test
     void removeNode() {
 
@@ -41,7 +47,9 @@ class DWGraph_DSTest {
         assertEquals(10,g.nodeSize());
         g.removeNode(100);
     }
-
+    /**
+     * check the removeEdge function-removing edge from the graph then check how many edges are there in the graph
+     */
     @org.junit.jupiter.api.Test
     void removeEdge() {
 
@@ -51,7 +59,9 @@ class DWGraph_DSTest {
         g.removeEdge(0,1);
         assertEquals(15,g.edgeSize());
     }
-
+    /**
+     * check the nodeSize function-removing node from the graph then check how many node are there in the graph
+     */
     @org.junit.jupiter.api.Test
     void nodeSize() {
 
@@ -61,7 +71,9 @@ class DWGraph_DSTest {
         g.removeNode(10);
         assertEquals(10,g.nodeSize());
     }
-
+    /**
+     * check the edgeSize function-removing edge from the graph then check how many edges are there in the graph
+     */
     @org.junit.jupiter.api.Test
     void edgeSize() {
 
@@ -75,6 +87,9 @@ class DWGraph_DSTest {
         g.removeNode(10);
         assertEquals(11,g.edgeSize());
     }
+    /**
+     * check the getNode function
+     */
     @org.junit.jupiter.api.Test
     void getNode() {
         directed_weighted_graph g2=new DWGraph_DS();
@@ -84,7 +99,9 @@ class DWGraph_DSTest {
         assertEquals(n,n2);
     }
 
-
+    /**
+     * check the addNode function-add node to the graph and check if the node is found in the graph
+     */
     @org.junit.jupiter.api.Test
     void addNode() {
         directed_weighted_graph g2=new DWGraph_DS();
@@ -92,7 +109,9 @@ class DWGraph_DSTest {
         g2.addNode(n);
         assertNotNull(g2.getNode(n.getKey()));
     }
-
+    /**
+     * check the connect function-connect two node in the graph and check how many edges in the graph
+     */
     @org.junit.jupiter.api.Test
     void connect() {
         directed_weighted_graph g2=new DWGraph_DS();

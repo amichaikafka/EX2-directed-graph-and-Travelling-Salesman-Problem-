@@ -24,33 +24,34 @@ public class Ex2_Client implements Runnable {
 
     @Override
     public void run() {
-        int scenario_num = 23;
+        int scenario_num = 10;
+        try {
+            game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
 
-        game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
 
-        //	int id = 999;
+            //	int id = 999;
 //        	game.login(id);
-        String g = game.getGraph();
-        String pks = game.getPokemons();
+            String g = game.getGraph();
+            String pks = game.getPokemons();
 //		directed_weighted_graph gg = game.getJava_Graph_Not_to_be_used();
-        directed_weighted_graph gg = Ex2.loadgraph(g);
-        System.out.println(gg);
-        init(game);
+            directed_weighted_graph gg = Ex2.loadgraph(g);
+            System.out.println(gg);
+            init(game);
 
 
-        game.startGame();
-        System.out.println(game.timeToEnd());
-        _win.setTitle("Ex2 - OOP: (NONE trivial Solution) " + game.toString());
-        int ind = 0;
-        long dt = 100;
-        while (game.isRunning()) {
-            Runnable nextstep = new Runnable() {
-                @Override
-                public void run() {
-                    moveAgants(game, gg);
-                }
+            game.startGame();
+            System.out.println(game.timeToEnd());
+            _win.setTitle("Ex2 - OOP: (NONE trivial Solution) " + game.toString());
+            int ind = 0;
+            long dt = 100;
+            while (game.isRunning()) {
+                Runnable nextstep = new Runnable() {
+                    @Override
+                    public void run() {
+                        moveAgants(game, gg);
+                    }
 
-            };
+                };
 //            Runnable nextstep = new Runnable() {
 //                @Override
 //                public void run() {
@@ -79,7 +80,7 @@ public class Ex2_Client implements Runnable {
 //                        } catch (InterruptedException e) {
 //                            e.printStackTrace();
 //                        }
-            //}
+                //}
 //                   if (noteat(Arena.json2Pokemons(game.getPokemons()))!=_ar.getAgents().size()) {
 //                       System.out.println("hi2");
 //                       notifyAll();
@@ -97,28 +98,32 @@ public class Ex2_Client implements Runnable {
 //             arr[i].start();
 
 //            Thread t_check = new Thread(check);
-            //}
-            Thread t = new Thread(nextstep);
-            t.start();
+                //}
+                Thread t = new Thread(nextstep);
+                t.start();
 
 //            t_check.start();
-            // if(noteat(Arena.getAgents(game.move(), gg))) {
+                // if(noteat(Arena.getAgents(game.move(), gg))) {
 //                moveAgants(game, gg);
-            // }
-            try {
-                if (ind % 5 == 0) {
-                    _win.repaint();
+                // }
+                try {
+                    if (ind % 5 == 0) {
+                        _win.repaint();
+                    }
+                    Thread.sleep(dt);
+                    ind++;
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                Thread.sleep(dt);
-                ind++;
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-        }
-        String res = game.toString();
+            String res = game.toString();
 
-        System.out.println(res);
-        System.exit(0);
+            System.out.println(res);
+            System.exit(0);
+        } catch (Exception e) {
+            System.out.println("worng level");
+            System.exit(0);
+        }
     }
 
     /**
