@@ -24,7 +24,7 @@ The implementation using a hashmap.
  4. List<node_data> shortestPath(int src, int dest);using Dijkstra algorithm;
  5. Save(file); // JSON file
  6. Load(file); // JSON file
-### NodeDat
+### NodeData
 This class implements node_data interface represents the set of operations applicable on a
 node (vertex) in a (directional) weighted graph.
 ### edgedata
@@ -63,7 +63,7 @@ This class implements geo_location interface represents a geo location <x,y,z>, 
  Returns the number of vertices (nodes) in the graph.
  * __edgeSize()__\
  Returns the number of edges.
- *__getMC()__\
+ * __getMC()__\
  Returns the Mode Count - for testing changes in the graph.
  
  ### WGraph_Algo
