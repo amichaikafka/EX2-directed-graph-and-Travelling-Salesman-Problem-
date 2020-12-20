@@ -116,7 +116,7 @@ This class is the panel of the frame in the end of the game (GUI)
 The goal of this class is to play the background music of the game.
 
 ## Interfaces
-* __game_service__
+* __game_service.__
 
 
 
