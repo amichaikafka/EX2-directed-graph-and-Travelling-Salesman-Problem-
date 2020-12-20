@@ -3,7 +3,7 @@ package gameClient;
 import javax.swing.*;
 import java.awt.*;
 /**
- * this class if the frame of the opening of the game
+ * this class if the frame of the opening of the game(GUI)
  */
 public class myOpen extends JFrame {
     private   openPanel panel;

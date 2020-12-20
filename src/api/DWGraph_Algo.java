@@ -8,7 +8,7 @@ import java.io.*;
 import java.util.*;
 import java.util.List;
 /**
- * This class implements the interface directed_weighted_graph including:
+ * This class implements the dw_graph_algorithms interface directed_weighted_graph including:
  * 0. clone(); (copy)
  * 1. init(graph);
  * 2. isConnected(); // strongly (all ordered pais connected) using BFS algorithm
@@ -99,17 +99,26 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     public DWGraph_Algo() {
         this.g = new DWGraph_DS();
     }
-
+    /**
+     * Init the graph on which this set of algorithms operates on.
+     * @param g
+     */
     @Override
     public void init(directed_weighted_graph g) {
         this.g = g;
     }
-
+    /**
+     * Return the underlying graph of which this class works.
+     * @return
+     */
     @Override
     public directed_weighted_graph getGraph() {
         return this.g;
     }
-
+    /**
+     * Compute a deep copy of this  graph.
+     * @return
+     */
     @Override
     public directed_weighted_graph copy() {
         directed_weighted_graph g1=new DWGraph_DS(this.g);

@@ -12,7 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 /**
- * this class is the panel of the frame in the start of the game
+ * this class is the panel of the frame in the start of the game(GUI)
  */
 
 public class openPanel extends JPanel implements ActionListener {

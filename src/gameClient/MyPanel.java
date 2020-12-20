@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 /**
- * this class is the panel of the frame in the game
+ * this class is the panel of the frame in the game(GUI)
  */
 public class MyPanel extends JPanel {
     private static final int E = 10;

@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 /**
- * this class is the panel of the frame in the end of the game
+ * this class is the panel of the frame in the end of the game (GUI)
  */
 
 public class endgame extends JPanel implements ActionListener {

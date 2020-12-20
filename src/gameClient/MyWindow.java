@@ -14,7 +14,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 /**
- * this class is the frame of the  game
+ * this class is the frame of the  game (GUI)
  */
 public class MyWindow extends JFrame  {
     private  MyPanel panel;

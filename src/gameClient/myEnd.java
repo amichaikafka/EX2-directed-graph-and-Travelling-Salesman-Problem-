@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * this class is the frame of the end of the game
+ * this class is the frame of the end of the game(GUI)
  */
 public class myEnd extends JFrame {
     private endgame end;
