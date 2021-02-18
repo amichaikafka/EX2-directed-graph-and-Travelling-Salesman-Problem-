@@ -87,8 +87,8 @@ This class implements geo_location interface represents a geo location <x,y,z>, 
 
 
 # Part two
-# Catch the pokemon
-The goal of this part of the second part of the program is to illustrate the algorithems that implemented in the first class via a game, the game is very simpele 
+# Catch the pokemon  
+The goal of this part of the second part of the program is to illustrate the usage of Travelling Salesman Problem with the algorithems that implemented in the first class via a game, the game is very simpele 
 there is a graph on the graph there are pokemons which you have  to catch. How do you do that? you have the control on the agents using the algorithems from the first part you need to give the best way for each agent to catch them all ;)
 # classes
 * __Ex2__\
